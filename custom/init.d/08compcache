@@ -1,0 +1,20 @@
+#!/system/bin/sh
+
+# - load compcache module
+
+if [ -e /data/property/persist.service.compcache ];
+then
+  PROP=`getprop persist.service.compcache`
+else
+  PROP=`getprop ro.compcache.default`
+  setprop persist.service.compcache $PROP
+fi
+
+if [ $PROP == 1 ]
+then
+  insmod /system/lib/modules/ramzswap.ko disksize_kb=30720
+  busybox swapon /dev/block/ramzswap0
+fi
+
+exit 0
+

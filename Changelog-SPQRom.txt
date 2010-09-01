@@ -1,0 +1,16 @@
+0.3:
+-LatinIME setted as default keyboard
+-Camera should not drain battery now
+-Resolve video issues and enabled streaming from Browser
+-Added TattooCalibration.apk
+
+0.2:
+-Disabled menu button in lock screen
+-Update to lastest CM6 stable release
+-Cyanogen Compcache setting activated
+-Included Chinese and Japanese Keyboard
+-Revisited Layout of Latin Keyboard and USB Storage Dialog for QVGA
+
+0.1:
+Initial Release
+

@@ -1,0 +1,17 @@
+#!/system/bin/sh
+
+# - Move /data/dalvik-cache to /cache partition
+# - Get the idea from Cyanogen ROM-5.0.4.1
+if [ ! -d /cache/dalvik-cache ]
+then
+	mkdir /cache/dalvik-cache
+	chown system.system /cache/dalvik-cache
+	chmod 0771 /cache/dalvik-cache
+fi
+
+mount -o bind /cache/dalvik-cache /data/dalvik-cache
+# double-check the perms
+chown system.system /data/dalvik-cache
+chmod 0771 /data/dalvik-cache
+
+exit 0

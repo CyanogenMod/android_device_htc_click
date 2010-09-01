@@ -1,0 +1,8 @@
+#!/system/bin/sh
+
+# - run customized shell at boot time
+userscript="/data/local/bin/autostart.sh"
+
+[ -x $userscript ] && /system/bin/sh $userscript
+
+exit 0
