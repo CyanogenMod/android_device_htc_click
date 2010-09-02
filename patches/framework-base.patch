@@ -1,0 +1,244 @@
+From 2552f0707c7ed9cc9feb30057adb76a9888ed912 Mon Sep 17 00:00:00 2001
+From: Tiziano <tizianoc@fastwebnet.it>
+Date: Thu, 2 Sep 2010 23:51:28 +0200
+Subject: [PATCH] -Fix HSDPA for Tattoo
+ -Fix Search operators
+
+---
+ core/java/android/app/NotificationManager.java     |   20 --------------------
+ .../android/server/InputMethodManagerService.java  |    8 ++++++--
+ telephony/java/android/telephony/ServiceState.java |    8 ++++----
+ .../java/com/android/internal/telephony/RIL.java   |   11 ++++++-----
+ .../internal/telephony/ServiceStateTracker.java    |    4 ++--
+ .../internal/telephony/gsm/NetworkInfo.java        |   20 ++++++++++++++------
+ 6 files changed, 32 insertions(+), 39 deletions(-)
+
+diff --git a/core/java/android/app/NotificationManager.java b/core/java/android/app/NotificationManager.java
+index e3429a0..7403cf3 100644
+--- a/core/java/android/app/NotificationManager.java
++++ b/core/java/android/app/NotificationManager.java
+@@ -93,22 +93,6 @@ public class NotificationManager
+         notify(null, id, notification);
+     }
+ 
+-    /** @hide */
+-    public void updatePackageList() {
+-    	try {
+-    		if(mContext.getPackageName().equals("com.cyanogenmod.cmparts")) {
+-    			return;
+-    		}
+-    		//File file = new File(appContext.getFilesDir(), "trackball_lights");
+-    		FileOutputStream fos = mContext.openFileOutput("trackball_lights", Context.MODE_WORLD_READABLE);
+-    		String blank = "yes";
+-    		fos.write(blank.getBytes());
+-    		fos.close();
+-    	} catch(Exception e) {
+-    		Log.d("WriteApps", "Error: " + e.toString() );
+-    	}
+-    }
+-
+     /**
+      * Persistent notification on the status bar,
+      *
+@@ -124,10 +108,6 @@ public class NotificationManager
+         int[] idOut = new int[1];
+         INotificationManager service = getService();
+         String pkg = mContext.getPackageName();
+-        if(((notification.flags & Notification.FLAG_ONGOING_EVENT) == 0)
+-	|| ((notification.flags & Notification.FLAG_FOREGROUND_SERVICE) == 0)) {
+-		updatePackageList();
+-        }
+         if (localLOGV) Log.v(TAG, pkg + ": notify(" + id + ", " + notification + ")");
+         try {
+             service.enqueueNotificationWithTag(pkg, tag, id, notification, idOut);
+diff --git a/services/java/com/android/server/InputMethodManagerService.java b/services/java/com/android/server/InputMethodManagerService.java
+index 4363492..6b33c50 100644
+--- a/services/java/com/android/server/InputMethodManagerService.java
++++ b/services/java/com/android/server/InputMethodManagerService.java
+@@ -1400,7 +1400,7 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
+         List<InputMethodInfo> enabled = getEnabledInputMethodListLocked();
+         if (enabled != null && enabled.size() > 0) {
+             // We'd prefer to fall back on a system IME, since that is safer.
+-            int i=enabled.size();
++           /* int i=enabled.size();
+             while (i > 0) {
+                 i--;
+                 if ((enabled.get(i).getServiceInfo().applicationInfo.flags
+@@ -1410,7 +1410,11 @@ public class InputMethodManagerService extends IInputMethodManager.Stub
+             }
+             Settings.Secure.putString(mContext.getContentResolver(),
+                     Settings.Secure.DEFAULT_INPUT_METHOD,
+-                    enabled.get(i).getId());
++                    enabled.get(i).getId());*/
++		Settings.Secure.putString(mContext.getContentResolver(),
++			    Settings.Secure.DEFAULT_INPUT_METHOD,
++			    "com.android.inputmethod.latin/.LatinIME");
++
+             return true;
+         }
+ 
+diff --git a/telephony/java/android/telephony/ServiceState.java b/telephony/java/android/telephony/ServiceState.java
+index 6c66559..c4eaf93 100644
+--- a/telephony/java/android/telephony/ServiceState.java
++++ b/telephony/java/android/telephony/ServiceState.java
+@@ -74,7 +74,7 @@ public class ServiceState implements Parcelable {
+     /** @hide */
+     public static final int RADIO_TECHNOLOGY_UMTS = 3;
+     /** @hide */
+-    public static final int RADIO_TECHNOLOGY_IS95A = 4;
++    public static final int RADIO_TECHNOLOGY_IS95A = 9;
+     /** @hide */
+     public static final int RADIO_TECHNOLOGY_IS95B = 5;
+     /** @hide */
+@@ -84,7 +84,7 @@ public class ServiceState implements Parcelable {
+     /** @hide */
+     public static final int RADIO_TECHNOLOGY_EVDO_A = 8;
+     /** @hide */
+-    public static final int RADIO_TECHNOLOGY_HSDPA = 9;
++    public static final int RADIO_TECHNOLOGY_HSDPA = 4;
+     /** @hide */
+     public static final int RADIO_TECHNOLOGY_HSUPA = 10;
+     /** @hide */
+@@ -393,7 +393,7 @@ public class ServiceState implements Parcelable {
+         case 3:
+             radioTechnology = "UMTS";
+             break;
+-        case 4:
++        case 9:
+             radioTechnology = "IS95A";
+             break;
+         case 5:
+@@ -408,7 +408,7 @@ public class ServiceState implements Parcelable {
+         case 8:
+             radioTechnology = "EvDo rev. A";
+             break;
+-        case 9:
++        case 4:
+             radioTechnology = "HSDPA";
+             break;
+         case 10:
+diff --git a/telephony/java/com/android/internal/telephony/RIL.java b/telephony/java/com/android/internal/telephony/RIL.java
+index d8e313a..5d79bba 100644
+--- a/telephony/java/com/android/internal/telephony/RIL.java
++++ b/telephony/java/com/android/internal/telephony/RIL.java
+@@ -2890,21 +2890,22 @@ public final class RIL extends BaseCommands implements CommandsInterface {
+         String strings[] = (String [])responseStrings(p);
+         ArrayList<NetworkInfo> ret;
+ 
+-        if (strings.length % 4 != 0) {
++        if (strings.length % 5 != 0) {
+             throw new RuntimeException(
+                 "RIL_REQUEST_QUERY_AVAILABLE_NETWORKS: invalid response. Got "
+-                + strings.length + " strings, expected multible of 4");
++                + strings.length + " strings, expected multible of 5");
+         }
+ 
+-        ret = new ArrayList<NetworkInfo>(strings.length / 4);
++        ret = new ArrayList<NetworkInfo>(strings.length / 5);
+ 
+-        for (int i = 0 ; i < strings.length ; i += 4) {
++        for (int i = 0 ; i < strings.length ; i += 5) {
+             ret.add (
+                 new NetworkInfo(
+                     strings[i+0],
+                     strings[i+1],
+                     strings[i+2],
+-                    strings[i+3]));
++                    strings[i+3],
++		    strings[i+4]));
+         }
+ 
+         return ret;
+diff --git a/telephony/java/com/android/internal/telephony/ServiceStateTracker.java b/telephony/java/com/android/internal/telephony/ServiceStateTracker.java
+index 7383649..daa2953 100644
+--- a/telephony/java/com/android/internal/telephony/ServiceStateTracker.java
++++ b/telephony/java/com/android/internal/telephony/ServiceStateTracker.java
+@@ -36,12 +36,12 @@ public abstract class ServiceStateTracker extends Handler {
+     protected static final int DATA_ACCESS_GPRS = 1;
+     protected static final int DATA_ACCESS_EDGE = 2;
+     protected static final int DATA_ACCESS_UMTS = 3;
+-    protected static final int DATA_ACCESS_CDMA_IS95A = 4;
++    protected static final int DATA_ACCESS_CDMA_IS95A = 9;
+     protected static final int DATA_ACCESS_CDMA_IS95B = 5;
+     protected static final int DATA_ACCESS_CDMA_1xRTT = 6;
+     protected static final int DATA_ACCESS_CDMA_EvDo_0 = 7;
+     protected static final int DATA_ACCESS_CDMA_EvDo_A = 8;
+-    protected static final int DATA_ACCESS_HSDPA = 9;
++    protected static final int DATA_ACCESS_HSDPA = 4;
+     protected static final int DATA_ACCESS_HSUPA = 10;
+     protected static final int DATA_ACCESS_HSPA = 11;
+ 
+diff --git a/telephony/java/com/android/internal/telephony/gsm/NetworkInfo.java b/telephony/java/com/android/internal/telephony/gsm/NetworkInfo.java
+index 04fd13e..184649c 100644
+--- a/telephony/java/com/android/internal/telephony/gsm/NetworkInfo.java
++++ b/telephony/java/com/android/internal/telephony/gsm/NetworkInfo.java
+@@ -36,6 +36,8 @@ public class NetworkInfo implements Parcelable {
+ 
+     State state = State.UNKNOWN;
+ 
++    String onsLevel;
++
+ 
+     public String
+     getOperatorAlphaLong() {
+@@ -60,22 +62,25 @@ public class NetworkInfo implements Parcelable {
+     NetworkInfo(String operatorAlphaLong,
+                 String operatorAlphaShort,
+                 String operatorNumeric,
+-                State state) {
++                State state,
++		String onsLevel) {
+ 
+         this.operatorAlphaLong = operatorAlphaLong;
+         this.operatorAlphaShort = operatorAlphaShort;
+         this.operatorNumeric = operatorNumeric;
+-
++	
+         this.state = state;
++	this.onsLevel = onsLevel;
+     }
+ 
+ 
+     public NetworkInfo(String operatorAlphaLong,
+                 String operatorAlphaShort,
+                 String operatorNumeric,
+-                String stateString) {
++                String stateString,
++		String onsLevel) {
+         this (operatorAlphaLong, operatorAlphaShort,
+-                operatorNumeric, rilStateToState(stateString));
++                operatorNumeric, rilStateToState(stateString), onsLevel);
+     }
+ 
+     /**
+@@ -101,7 +106,8 @@ public class NetworkInfo implements Parcelable {
+         return "NetworkInfo " + operatorAlphaLong
+                 + "/" + operatorAlphaShort
+                 + "/" + operatorNumeric
+-                + "/" + state;
++                + "/" + state
++		+ "/" + onsLevel;
+     }
+ 
+     /**
+@@ -125,6 +131,7 @@ public class NetworkInfo implements Parcelable {
+         dest.writeString(operatorAlphaShort);
+         dest.writeString(operatorNumeric);
+         dest.writeSerializable(state);
++	dest.writeString(onsLevel);
+     }
+ 
+     /**
+@@ -138,7 +145,8 @@ public class NetworkInfo implements Parcelable {
+                         in.readString(), /*operatorAlphaLong*/
+                         in.readString(), /*operatorAlphaShort*/
+                         in.readString(), /*operatorNumeric*/
+-                        (State) in.readSerializable()); /*state*/
++                        (State) in.readSerializable(), /*state*/
++			in.readString()); /*onslevel*/
+                 return netInfo;
+             }
+ 
+-- 
+1.7.0.4
+

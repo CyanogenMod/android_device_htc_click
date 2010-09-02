@@ -1,3 +1,6 @@
+0.4:
+-Fixed Network Operators Search
+
 0.3:
 -LatinIME setted as default keyboard
 -Camera should not drain battery now
