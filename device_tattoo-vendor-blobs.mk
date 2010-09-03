@@ -67,6 +67,7 @@ PRODUCT_COPY_FILES += \
 	device/htc/tattoo/proprietary/agps_rm:/system/etc/agps_rm \
 	device/htc/tattoo/proprietary/libt9.so:system/lib/libt9.so \
 	device/htc/tattoo/proprietary/voicemail-conf.xml:system/etc/voicemail-conf.xml \
+	device/htc/tattoo/proprietary/spn-conf.xml:system/etc/spn-conf.xml \
 	device/htc/tattoo/proprietary/sensors.bahamas.so:system/lib/hw/sensors.bahamas.so
 
 
