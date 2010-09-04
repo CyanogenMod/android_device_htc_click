@@ -1,5 +1,8 @@
 0.4:
 -Fixed Network Operators Search
+-Added ipv6 modules in kernel
+-Revised layout of Lock Screen, PIN Unlock Screen and Password Unlock Screen 
+-Sync with last Cyanogen sources, new headset icon in status bar.
 
 0.3:
 -LatinIME setted as default keyboard
