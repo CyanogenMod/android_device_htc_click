@@ -91,8 +91,8 @@ libaudiopolicy.so       0xA9A00000 # [~1M]
 libaudiopolicygeneric.so 0xA9900000 # [???]
 libsoundpool.so         0xA9800000 # [~1M]
 libgps.so               0xA9700000 # [~1M] (moved for Tattoo)
-libspeech.so            0xA9600000 # [~1M]
-liboemcamera.so         0xA9400000 # [~1M] (moved for Tattoo)
+libcamera.so            0xA9680000 # [~1M] (moved for Tattoo)
+liboemcamera.so         0xA9400000 # [~2M] (moved for Tattoo)
 libmedia_jni.so         0xA9300000 # [~1M]
 libmediaplayerservice.so 0xA9200000 # [~1M]
 libmedia.so             0xA9000000 # [~2M]
@@ -112,8 +112,8 @@ libhardware_legacy.so   0xA7E00000 # [~1M]
 libapp_process.so       0xA7D00000 # [???]
 libsystem_server.so     0xA7C00000 # [~1M]
 libime.so               0xA7B00000 # [???]
-libaudio.so             0xA7A00000 # [~1M] (moved for Tattoo)
-libcamera.so            0xA7900000 # [~1M]
+#libaudio.so             0xA7A00000 # [~1M] (moved for Tattoo)
+libspeech.so            0xA7900000 # [~1M] 
 libsonivox.so           0xA7800000 # [~1M] (moved for Tattoo)
 libvorbisidec.so        0xA7700000 # [~1M] (moved for Tattoo)
 libdiskconfig.so        0xA7600000 # [<64K]
@@ -170,7 +170,7 @@ libstagefright.so                  0xA2F00000 # [~4M]
 # libraries for specific hardware
 libgsl.so               0xA2E00000 # [~1M]
 libhtc_acoustic.so      0xA2D00000 # [<64K]
-libhtc_ril.so           0xA2C00000 # [~1M]
+#libhtc_ril.so           0xA2C00000 # [~1M]
 liblvmxipc.so           0xA2B00000 # [~1M] for vendor/nxp
 libreference-cdma-sms.so 0xA2A00000 # [<64K] for hardware/ril
 
