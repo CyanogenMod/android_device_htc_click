@@ -112,7 +112,7 @@ libhardware_legacy.so   0xA7E00000 # [~1M]
 libapp_process.so       0xA7D00000 # [???]
 libsystem_server.so     0xA7C00000 # [~1M]
 libime.so               0xA7B00000 # [???]
-#libaudio.so             0xA7A00000 # [~1M] (moved for Tattoo)
+libaudio.so             0xA7A00000 # [~1M] (moved for Tattoo)
 libspeech.so            0xA7900000 # [~1M] 
 libsonivox.so           0xA7800000 # [~1M] (moved for Tattoo)
 libvorbisidec.so        0xA7700000 # [~1M] (moved for Tattoo)
