@@ -1,3 +1,6 @@
+0.4.1:
+-Fixed libGps, should not cause issues anymore.
+
 0.4:
 -Fixed Network Operators Search
 -Added ipv6 modules in kernel
