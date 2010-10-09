@@ -92,8 +92,8 @@ BUILD_WITH_FULL_STAGEFRIGHT := true
 
 
 # JIT built in, but disabled by default
-#WITH_JIT := true
-#ENABLE_JSC_JIT := true
+WITH_JIT := true
+ENABLE_JSC_JIT := true
 
 # Stop compiling test_* binaries for eng tag
 #STOP_TEST_BINS := true

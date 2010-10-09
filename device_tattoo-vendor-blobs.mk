@@ -61,6 +61,7 @@ PRODUCT_COPY_FILES += \
     	device/htc/tattoo/proprietary/libhtc_acoustic.so:system/lib/libhtc_acoustic.so \
     	device/htc/tattoo/proprietary/libhtc_ril.so:system/lib/libhtc_ril.so \
     	device/htc/tattoo/proprietary/brf6300.bin:system/etc/firmware/brf6300.bin \
+    	device/htc/tattoo/proprietary/brf6350.bin:system/etc/firmware/brf6350.bin \
     	device/htc/tattoo/proprietary/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
     	device/htc/tattoo/proprietary/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
     	device/htc/tattoo/proprietary/qwerty.kl:system/usr/keylayout/qwerty.kl \
