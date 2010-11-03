@@ -34,6 +34,9 @@ PRODUCT_PACKAGES := \
     LiveWallpapersPicker \
     librs_jni
 
+#Gallery 2d
+PRODUCT_PACKAGES += Gallery
+
 # Pick up overlay for features that depend on non-open-source files
 DEVICE_PACKAGE_OVERLAYS := device/htc/tattoo/overlay
 
@@ -61,7 +64,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.enable.a53=1 \
     ro.ril.vmail.23415=1571,BT \
     ro.ril.enable.dtm = 1 \
+    ro.ril.hsxpa=1 \
     ro.ril.hsdpa.category = 8 \
+    ro.ril.gprsclass=12 \
     ro.ril.htcmaskw1.bitmask = 4294967295 \
     ro.ril.htcmaskw1 = 14449 \
     ro.ril.def.agps.mode = 2

@@ -12,6 +12,8 @@ USE_CAMERA_STUB := true
 -include device/htc/tattoo/BoardConfigVendor.mk
 
 TARGET_BOARD_PLATFORM := msm7k
+TARGET_ARCH_VARIANT := armv6j
+
 TARGET_CPU_ABI := armeabi
 
 TARGET_NO_BOOTLOADER := true
@@ -43,6 +45,8 @@ BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x02E00000
 
 BOARD_HAVE_BLUETOOTH := true
+
+BOARD_HAS_LIMITED_EGL:=true
 
 BOARD_VENDOR_USE_AKMD := akm8973
 
