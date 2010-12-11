@@ -2,6 +2,14 @@
 
 # - load compcache module
 
+MEMTOTAL=$( awk '{ if ($1 eq "MemTotal:") print $2 ;exit }' </proc/meminfo )
+
+if [ `getprop persist.service.compcache` == 1 ];
+then
+  PROP=`getprop ro.compcache.default`
+  setprop persist.service.compcache $PROP
+fi
+
 if [ -e /data/property/persist.service.compcache ];
 then
   PROP=`getprop persist.service.compcache`
@@ -10,9 +18,12 @@ else
   setprop persist.service.compcache $PROP
 fi
 
-if [ $PROP == 1 ]
+if [ $PROP != 0 ]
 then
-  insmod /system/lib/modules/ramzswap.ko disksize_kb=30720
+  CCSIZE=$(($(($MEMTOTAL * $PROP)) / 100))
+  echo 3 > /proc/sys/vm/drop_caches
+  echo 30 > /proc/sys/vm/swappiness  
+  insmod /system/lib/modules/ramzswap.ko disksize_kb=$CCSIZE
   busybox swapon /dev/block/ramzswap0
 fi
 
