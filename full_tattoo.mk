@@ -20,6 +20,7 @@
 #
 
 # Inherit from those products. Most specific first.
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product, device/htc/tattoo/device_tattoo_eu.mk)
     
@@ -29,6 +30,14 @@ $(call inherit-product, device/htc/common/common.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := full_tattoo
-PRODUCT_DEVICE := tattoo
-PRODUCT_MODEL := Full Android on Tattoo
+PRODUCT_NAME := KalimROM_6.2.0
+PRODUCT_DEVICE := KalimROM
+PRODUCT_MODEL := KalimochoAzucarado
+#PRODUCT_LOCALES := es_ES
+ro.product.locale.language=es
+ro.product.locale.region=ES
+ro.product.name=Kalim2010
+ro.product.device=tattoo-Kalim
+ro.build.product=tattoo-Kalim
+ro.rommanager.developerid=KalimochoAzucarado
+ro.modversion=CyanogenMod-6.2.0-RC1-Kalim

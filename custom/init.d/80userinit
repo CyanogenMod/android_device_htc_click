@@ -1,4 +1,6 @@
 #!/system/bin/sh
+L="log -p i -t cm"
+$L "Kalim iniciado userinit";
 
 # - run customized shell at boot time
 userscript="/data/local/bin/autostart.sh"

@@ -3,26 +3,27 @@ PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/logo.rle:root/logo.rle \
     device/htc/tattoo/proprietary/libgps.so:obj/lib/libgps.so
 
-# proprietary for /system/squashfs
-PRODUCT_COPY_FILES += \
-	device/htc/tattoo/custom/modules.sqf:system/squashfs/modules.sqf
-
 # Files in /system/etc
 PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/passwd:system/etc/passwd \
-    device/htc/tattoo/custom/init.d/00sysctl:system/etc/init.d/00sysctl \
-    device/htc/tattoo/custom/init.d/02squashfs:system/etc/init.d/02squashsf \
     device/htc/tattoo/custom/init.d/08compcache:system/etc/init.d/08compcache \
     device/htc/tattoo/custom/init.d/20opt_and_fix:system/etc/init.d/20opt_and_fix \
     device/htc/tattoo/custom/init.d/80userinit:system/etc/init.d/80userinit \
     device/htc/tattoo/custom/init.d/99complete:system/etc/init.d/99complete \
     device/htc/tattoo/custom/sysctl.conf:system/etc/sysctl.conf \
-    device/htc/tattoo/custom/placeholder:system/lib/modules/placeholder
+    device/htc/tattoo/custom/permissions/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
+    device/htc/tattoo/custom/placeholder:system/lib/modules/placeholder \
+    device/htc/tattoo/custom/modules/wlan.ko:system/lib/modules/wlan.ko \
+    device/htc/tattoo/custom/modules/lzo_compress.ko:system/lib/modules/lzo_compress.ko \
+    device/htc/tattoo/custom/modules/lzo_decompress.ko:system/lib/modules/lzo_decompress.ko \
+    device/htc/tattoo/custom/modules/xvmalloc.ko:system/lib/modules/xvmalloc.ko \
+    device/htc/tattoo/custom/modules/ramzswap.ko:system/lib/modules/ramzswap.ko \
+    device/htc/tattoo/custom/modules/tattoo-hack.ko:system/lib/modules/tattoo-hack.ko
 
 # Tattoo Calibration app
 PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/TattooCalibration.apk:system/app/TattooCalibration.apk
-
+    
 # proprietary for /system/sbin
 PRODUCT_COPY_FILES += \
 	device/htc/tattoo/custom/dropbear:system/xbin/dropbear \
@@ -36,7 +37,7 @@ PRODUCT_COPY_FILES += \
 
 # boot partition
 PRODUCT_COPY_FILES += \
-	device/htc/tattoo/custom/tattoo-hack.ko:root/sbin/tattoo-hack.ko \
+	device/htc/tattoo/custom/modules/tattoo-hack.ko:root/lib/modules/tattoo-hack.ko \
 
 # Other bin stuff
 PRODUCT_COPY_FILES += \
@@ -57,6 +58,10 @@ PRODUCT_COPY_FILES += \
 	device/htc/tattoo/proprietary/libOmxH264Dec.so:system/lib/libOmxH264Dec.so \
 	device/htc/tattoo/proprietary/libOmxMpeg4Dec.so:system/lib/libOmxMpeg4Dec.so \
 	device/htc/tattoo/proprietary/libOmxVidEnc.so:system/lib/libOmxVidEnc.so \
+	device/htc/tattoo/proprietary/libmmcamera.so:system/lib/libmmcamera.so \
+	device/htc/tattoo/proprietary/libmm-qcamera-tgt.so:system/lib/libmm-qcamera-tgt.so \
+	device/htc/tattoo/proprietary/libqcamera.so:system/lib/libqcamera.so \
+	device/htc/tattoo/proprietary/libmmjpeg.so:system/lib/libmmjpeg.so \
 	device/htc/tattoo/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
     	device/htc/tattoo/proprietary/libhtc_acoustic.so:system/lib/libhtc_acoustic.so \
     	device/htc/tattoo/proprietary/libhtc_ril.so:system/lib/libhtc_ril.so \

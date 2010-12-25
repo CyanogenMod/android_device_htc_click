@@ -24,7 +24,7 @@ loglevel 3
     symlink /system/lib /lib
 
 # make /system partition writable
-    insmod /sbin/tattoo-hack.ko
+    insmod /lib/modules/tattoo-hack.ko
 
 # create mountpoints
     mkdir /mnt 0775 root system
@@ -270,6 +270,9 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
+
+    # Kalim Change fb0 permissions to enable write ( copybiterror )
+    chmod 666 /dev/graphics/fb0
 
 # Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,

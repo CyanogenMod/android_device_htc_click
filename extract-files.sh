@@ -45,3 +45,7 @@ adb pull /system/usr/keychars/qwerty2.kcm.bin proprietary
 adb pull /system/lib/hw/sensors.bahamas.so proprietary
 adb pull /system/etc/spn-conf.xml proprietary
 adb pull /system/etc/voicemail-conf.xml proprietary
+adb pull /system/lib/hw/libqcamera.so proprietary
+adb pull /system/lib/hw/libmm-qcamera-tgt.so proprietary
+adb pull /system/lib/hw/libmmjpeg.so proprietary
+adb pull /system/etc/libmmcamera.so proprietary

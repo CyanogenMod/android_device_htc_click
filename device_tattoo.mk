@@ -34,7 +34,8 @@ PRODUCT_PACKAGES := \
     LiveWallpapersPicker \
     librs_jni
 
-#Gallery 2d
+#Gallery 3d  o 2D
+#PRODUCT_PACKAGES += Gallery3D
 PRODUCT_PACKAGES += Gallery
 
 # Pick up overlay for features that depend on non-open-source files
@@ -69,6 +70,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.gprsclass=12 \
     ro.ril.htcmaskw1.bitmask = 4294967295 \
     ro.ril.htcmaskw1 = 14449 \
+    ro.compcache.default=1 \
     ro.ril.def.agps.mode = 2
 
 # Time between scans in seconds. Keep it high to minimize battery drain.
@@ -76,7 +78,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # but none are in range.
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface = tiwlan0 \
-    wifi.supplicant_scan_interval=45
+    wifi.supplicant_scan_interval=60
 
 # density in DPI of the LCD of this board. This is used to scale the UI
 # appropriately. If this property is not defined, the default value is 120 dpi. 

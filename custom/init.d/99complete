@@ -1,5 +1,6 @@
 #!/system/bin/sh
+L="log -p i -t cm"
+$L " Kalim iniciado complete";
 
 sync
-setprop fy.filesystem.ready 1
 
