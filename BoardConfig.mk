@@ -13,12 +13,16 @@ USE_CAMERA_STUB := true
 
 TARGET_BOARD_PLATFORM := msm7k
 TARGET_ARCH_VARIANT := armv6j
+#TARGET_ARCH_VARIANT := armv7-a
 
 TARGET_CPU_ABI := armeabi
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 TARGET_NO_RECOVERY := true
+#TARGET_NO_RECOVERY := false
+
+BOARD_USE_FROYO_LIBCAMERA := true
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
@@ -39,7 +43,7 @@ TARGET_BOOTLOADER_LIBS := \
 TARGET_BOOTLOADER_LINK_SCRIPT := \
 	hardware/msm7k/boot/boot.ld
 
-TARGET_PROVIDES_INIT_RC := true
+TARGET_PROVIDES_INIT_RC := false
 
 BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x02E00000
@@ -86,7 +90,7 @@ PRODUCT_BUILD_PROP_OVERRIDES += TARGET_BOOTLOADER_BOARD_NAME=bahamas
 # mtd3: 05a00000 00020000 "system"
 # mtd4: 05000000 00020000 "cache"
 # mtd5: 127c0000 00020000 "userdata"
-# Changed for Tattoo
+# Changed for bahamas
 BOARD_BOOTIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00280000)
 BOARD_RECOVERYIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x00500000)
 BOARD_SYSTEMIMAGE_MAX_SIZE := $(call image-size-from-data-size,0x09600000)
@@ -106,3 +110,20 @@ ENABLE_JSC_JIT := true
 # Stop compiling test_* binaries for eng tag
 #STOP_TEST_BINS := true
 
+# Build kernel
+TARGET_PREBUILT_KERNEL := device/htc/tattoo/kernel
+LOCAL_KERNEL := device/htc/tattoo/kernel
+
+# Ginger
+#BOARD_LDPI_RECOVERY := true
+BOARD_LDPI_RECOVERY := false
+
+#BOARD_NO_RGBX_8888 := true
+
+#TARGET_LIBAGL_USE_GRALLOC_COPYBITS := true
+
+#BOARD_USE_HTC_USB_FUNCTION_SWITCH := true
+
+#BOARD_USE_USB_MASS_STORAGE_SWITCH := true
+
+#BOARD_USE_NEW_LIBRIL_HTC := true

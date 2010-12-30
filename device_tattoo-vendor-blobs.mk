@@ -6,18 +6,21 @@ PRODUCT_COPY_FILES += \
 # Files in /system/etc
 PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/passwd:system/etc/passwd \
-    device/htc/tattoo/custom/init.d/08compcache:system/etc/init.d/08compcache \
-    device/htc/tattoo/custom/init.d/20opt_and_fix:system/etc/init.d/20opt_and_fix \
-    device/htc/tattoo/custom/init.d/80userinit:system/etc/init.d/80userinit \
-    device/htc/tattoo/custom/init.d/99complete:system/etc/init.d/99complete \
     device/htc/tattoo/custom/sysctl.conf:system/etc/sysctl.conf \
     device/htc/tattoo/custom/permissions/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
     device/htc/tattoo/custom/placeholder:system/lib/modules/placeholder \
-    device/htc/tattoo/custom/modules/wlan.ko:system/lib/modules/wlan.ko \
-    device/htc/tattoo/custom/modules/lzo_compress.ko:system/lib/modules/lzo_compress.ko \
-    device/htc/tattoo/custom/modules/lzo_decompress.ko:system/lib/modules/lzo_decompress.ko \
-    device/htc/tattoo/custom/modules/xvmalloc.ko:system/lib/modules/xvmalloc.ko \
+    device/htc/tattoo/custom/modules/ip6_tunnel.ko:system/lib/modules/ip6_tunnel.ko \
+    device/htc/tattoo/custom/modules/ipv6.ko:system/lib/modules/ipv6.ko \
+    device/htc/tattoo/custom/modules/mip6.ko:system/lib/modules/mip6.ko \
     device/htc/tattoo/custom/modules/ramzswap.ko:system/lib/modules/ramzswap.ko \
+    device/htc/tattoo/custom/modules/sit.ko:system/lib/modules/sit.ko \
+    device/htc/tattoo/custom/modules/tunnel4.ko:system/lib/modules/tunnel4.ko \
+    device/htc/tattoo/custom/modules/tunnel6.ko:system/lib/modules/tunnel6.ko \
+    device/htc/tattoo/custom/modules/wlan.ko:system/lib/modules/wlan.ko \
+    device/htc/tattoo/custom/modules/xfrm6_mode_beet.ko:system/lib/modules/xfrm6_mode_beet.ko \
+    device/htc/tattoo/custom/modules/xfrm6_mode_transport.ko:system/lib/modules/xfrm6_mode_transport.ko \
+    device/htc/tattoo/custom/modules/xfrm6_mode_tunnel.ko:system/lib/modules/xfrm6_mode_tunnel.ko \
+    device/htc/tattoo/custom/modules/xt_TCPMSS.ko:system/lib/modules/xt_TCPMSS.ko \
     device/htc/tattoo/custom/modules/tattoo-hack.ko:system/lib/modules/tattoo-hack.ko
 
 # Tattoo Calibration app
@@ -76,4 +79,13 @@ PRODUCT_COPY_FILES += \
 	device/htc/tattoo/proprietary/spn-conf.xml:system/etc/spn-conf.xml \
 	device/htc/tattoo/proprietary/sensors.bahamas.so:system/lib/hw/sensors.bahamas.so
 
+ifdef WITH_WINDOWS_MEDIA
+PRODUCT_COPY_FILES += \
+    device/htc/tattoo/proprietary/libomx_wmadec_sharedlibrary.so:system/lib/libomx_wmadec_sharedlibrary.so \
+    device/htc/tattoo/proprietary/libomx_wmvdec_sharedlibrary.so:system/lib/libomx_wmvdec_sharedlibrary.so \
+    device/htc/tattoo/proprietary/libpvasfcommon.so:system/lib/libpvasfcommon.so \
+    device/htc/tattoo/proprietary/libpvasflocalpbreg.so:system/lib/libpvasflocalpbreg.so \
+    device/htc/tattoo/proprietary/libpvasflocalpb.so:system/lib/libpvasflocalpb.so \
+    device/htc/tattoo/proprietary/pvasflocal.cfg:system/etc/pvasflocal.cfg
+endif
 

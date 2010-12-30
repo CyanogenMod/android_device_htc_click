@@ -16,15 +16,23 @@
 
 # Kernel Targets
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-ifeq ($(TARGET_KERNEL_CONFIG),)
 TARGET_PREBUILT_KERNEL := device/htc/tattoo/kernel
-endif # TARGET_KERNEL_CONFIG
 endif # TARGET_PREBUILT_KERNEL
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_KERNEL):kernel
 
 DEVICE_PACKAGE_OVERLAYS := device/htc/tattoo/overlay
 
 PRODUCT_PACKAGES += \
     librs_jni \
+    libcopybit \
+    libcamera \
+    bahamas-keypad.kcm \
+    libgralloc \
+    liblights \
+    vold.fstab \
+    libsensors \
     sensors.bahamas
 
 PRODUCT_LOCALES += mdpi
@@ -42,7 +50,6 @@ PRODUCT_PACKAGES += Gallery
 DEVICE_PACKAGE_OVERLAYS := device/htc/tattoo/overlay
 
 $(call inherit-product, device/htc/tattoo/device_tattoo-vendor-blobs.mk)
-
 
 # from device_dream_sapphire.mk
 PRODUCT_COPY_FILES += \
@@ -70,6 +77,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.ril.gprsclass=12 \
     ro.ril.htcmaskw1.bitmask = 4294967295 \
     ro.ril.htcmaskw1 = 14449 \
+    ro.build.date.utc=1293591804 \
+    ro.product.device=tattoo \
+    ro.buid.device=tattoo \
     ro.compcache.default=1 \
     ro.ril.def.agps.mode = 2
 
@@ -125,3 +135,5 @@ $(call inherit-product, device/htc/common/common.mk)
 
 $(call inherit-product, build/target/product/full.mk)
 
+PRODUCT_NAME := generic_tattoo
+PRODUCT_DEVICE := tattoo
