@@ -1,0 +1,15 @@
+#!/system/bin/sh
+
+SETTINGSDB=/data/data/com.android.providers.settings/databases/settings.db
+if [ ! -f $SETTINGSDB ] ;
+then
+  exit
+fi
+
+CALIBRATION=`sqlite3 $SETTINGSDB "select value from system where name='calibration_points';"`
+if [ ! -z $CALIBRATION ] ;
+then
+  echo ">>> Calibrating touch screen with calibration points: " $CALIBRATION
+  echo $CALIBRATION > /sys/class/input/input1/calibration_points
+fi
+
