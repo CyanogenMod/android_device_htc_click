@@ -44,6 +44,7 @@ PRODUCT_COPY_FILES += \
     device/htc/tattoo/proprietary/libmmcamera.so:system/lib/libmmcamera.so \
     device/htc/tattoo/proprietary/libmm-qcamera-tgt.so:system/lib/libmm-qcamera-tgt.so \
     device/htc/tattoo/proprietary/libmmjpeg.so:system/lib/libmmjpeg.so \
+    device/htc/tattoo/proprietary/libaudioeq.so:system/lib/libaudioeq.so \
     device/htc/tattoo/proprietary/libqcamera.so:system/lib/libqcamera.so \
     device/htc/tattoo/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
     device/htc/tattoo/proprietary/libGLES_qcom.so:system/lib/egl/libGLES_qcom.so \
