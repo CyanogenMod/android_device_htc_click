@@ -40,7 +40,7 @@ PRODUCT_COPY_FILES += \
     device/htc/tattoo/proprietary/AudioPara4.csv:system/etc/AudioPara4.csv \
     device/htc/tattoo/proprietary/AudioFilter.csv:system/etc/AudioFilter.csv \
     device/htc/tattoo/proprietary/AudioPreProcess.csv:system/etc/AudioPreProcess.csv \
-    device/htc/tattoo/proprietary/fakecam/liboemcamera.so:system/lib/liboemcamera.so \
+    device/htc/tattoo/proprietary/liboemcamera.so:system/lib/liboemcamera.so \
     device/htc/tattoo/proprietary/libmmcamera.so:system/lib/libmmcamera.so \
     device/htc/tattoo/proprietary/libmm-qcamera-tgt.so:system/lib/libmm-qcamera-tgt.so \
     device/htc/tattoo/proprietary/libmmjpeg.so:system/lib/libmmjpeg.so \
