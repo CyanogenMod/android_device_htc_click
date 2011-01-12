@@ -40,6 +40,7 @@ PRODUCT_PACKAGES += \
     libmm-omxcore \
     wlan_loader \
     tiwlan.ini \
+    libcamera \
     librpc \
     dhcpcd.conf
 
@@ -119,7 +120,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Enable JIT by default
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.execution-mode=int:jit
+    dalvik.vm.execution-mode=int:fast
 
 # VM heap size
 PRODUCT_PROPERTY_OVERRIDES += \
