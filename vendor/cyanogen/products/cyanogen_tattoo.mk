@@ -14,8 +14,6 @@ PRODUCT_MODEL := HTC Tattoo
 PRODUCT_MANUFACTURER := HTC
 PRODUCT_BUILD_PROP_OVERRIDES += PRODUCT_NAME=htc_tattoo BUILD_ID=FRG83 BUILD_DISPLAY_ID=GRH78 BUILD_FINGERPRINT=google/passion/passion/mahimahi:2.2.1/FRG83/60505:user/release-keys PRIVATE_BUILD_DESC="passion-user 2.2.1 FRG83 60505 release-keys"
 
-PRODUCT_SPECIFIC_DEFINES += TARGET_PRELINKER_MAP=$(TOP)/device/htc/tattoo/prelink-linux-arm-tattoo.map
-
 # Enable Windows Media
 WITH_WINDOWS_MEDIA := true
 
@@ -28,4 +26,4 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Copy tattoo specific prebuilt files
 PRODUCT_COPY_FILES +=  \
-	device/htc/tattoo/custom/bootanimation.zip:system/media/bootanimation.zip
+    device/htc/tattoo/custom/bootanimation.zip:system/media/bootanimation.zip
