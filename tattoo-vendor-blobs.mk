@@ -18,9 +18,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/app/HTCCalibrate.apk:system/app/HTCCalibrate.apk
 
-PRODUCT_COPY_FILES += \
-    device/htc/tattoo/custom/app/FancyWidget.apk:system/app/FancyWidget.apk
-
 # proprietary for /system/bin
 PRODUCT_COPY_FILES += \
     device/htc/tattoo/custom/compcache:system/bin/compcache \
