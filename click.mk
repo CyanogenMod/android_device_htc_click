@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-DEVICE_PACKAGE_OVERLAYS += device/htc/buzz/overlay
+DEVICE_PACKAGE_OVERLAYS += device/htc/click/overlay
 
 # Live wallpaper packages
 PRODUCT_PACKAGES += \
