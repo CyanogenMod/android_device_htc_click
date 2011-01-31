@@ -44,16 +44,12 @@ PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/libqcamera.so:system/lib/libqcamera.so \
     device/htc/click/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
     device/htc/click/proprietary/libGLES_qcom.so:system/lib/egl/libGLES_qcom.so \
-    device/htc/click/proprietary/libgps.so:system/lib/libgps.so \
     device/htc/click/proprietary/libOmxH264Dec.so:system/lib/libOmxH264Dec.so \
     device/htc/click/proprietary/libOmxMpeg4Dec.so:system/lib/libOmxMpeg4Dec.so \
     device/htc/click/proprietary/libOmxVidEnc.so:system/lib/libOmxVidEnc.so \
     device/htc/click/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
     device/htc/click/proprietary/libhtc_acoustic.so:system/lib/libhtc_acoustic.so \
     device/htc/click/proprietary/libhtc_ril.so:system/lib/libhtc_ril.so \
-    device/htc/click/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
-    device/htc/click/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    device/htc/click/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl \
     device/htc/click/firmware/Fw1251r1c.bin:system/etc/wifi/Fw1251r1c.bin \
     device/htc/click/firmware/brf6300.bin:system/etc/firmware/brf6300.bin \
     device/htc/click/firmware/brf6350.bin:system/etc/firmware/brf6350.bin

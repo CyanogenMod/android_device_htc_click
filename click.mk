@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-DEVICE_PACKAGE_OVERLAYS += device/htc/buzz/overlay
+DEVICE_PACKAGE_OVERLAYS += device/htc/click/overlay
 
 # Live wallpaper packages
 PRODUCT_PACKAGES += \
@@ -61,13 +61,13 @@ PRODUCT_COPY_FILES += \
 
 # keychars and keylayout files
 PRODUCT_COPY_FILES += \
-    device/htc/click/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
-    device/htc/click/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
-    device/htc/click/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
-    device/htc/click/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/htc/click/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
-    device/htc/click/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    device/htc/click/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
+    device/htc/click/proprietary/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
+    device/htc/click/proprietary/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
+    device/htc/click/proprietary/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
+    device/htc/click/proprietary/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    device/htc/click/proprietary/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
+    device/htc/click/proprietary/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
+    device/htc/click/proprietary/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.dec.jpeg.memcap=10000000
