@@ -52,6 +52,7 @@ PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/libhtc_ril.so:system/lib/libhtc_ril.so \
     device/htc/click/proprietary/firmware/Fw1251r1c.bin:system/etc/wifi/Fw1251r1c.bin \
     device/htc/click/proprietary/firmware/brf6300.bin:system/etc/firmware/brf6300.bin \
+    device/htc/click/proprietary/libgps.so:system/lib/libgps.so \
     device/htc/click/proprietary/firmware/brf6350.bin:system/etc/firmware/brf6350.bin
 
 ifdef WITH_WINDOWS_MEDIA
