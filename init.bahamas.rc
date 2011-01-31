@@ -23,6 +23,9 @@ on boot
     # write screen calibration
     write /sys/class/input/input1/calibration_points 794,867,213,863,502,493,798,120,198,139
 
+    # for playing streaming
+    chown media media /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
