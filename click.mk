@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-DEVICE_PACKAGE_OVERLAYS += device/htc/tattoo/overlay
+DEVICE_PACKAGE_OVERLAYS += device/htc/buzz/overlay
 
 # Live wallpaper packages
 PRODUCT_PACKAGES += \
@@ -24,13 +24,12 @@ PRODUCT_PACKAGES += \
 # Publish that we support the live wallpaper feature.
 PRODUCT_COPY_FILES += \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
-    device/htc/tattoo/vold.fstab:system/etc/vold.fstab
+    device/htc/click/vold.fstab:system/etc/vold.fstab
 
-$(call inherit-product, device/htc/tattoo/tattoo-vendor-blobs.mk)
+$(call inherit-product, device/htc/click/click-vendor-blobs.mk)
 
 PRODUCT_PACKAGES += \
     librs_jni \
-    bahamas-keypad.kcm \
     sensors.bahamas \
     lights.bahamas \
     copybit.bahamas \
@@ -38,6 +37,7 @@ PRODUCT_PACKAGES += \
     gps.bahamas \
     libOmxCore \
     libmm-omxcore \
+    libOmxVidEnc \
     wlan_loader \
     tiwlan.ini \
     libcamera \
@@ -45,8 +45,8 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf
 
 PRODUCT_COPY_FILES += \
-    device/htc/tattoo/init.bahamas.rc:root/init.bahamas.rc \
-    device/htc/tattoo/ueventd.bahamas.rc:root/ueventd.bahamas.rc
+    device/htc/click/init.bahamas.rc:root/init.bahamas.rc \
+    device/htc/click/ueventd.bahamas.rc:root/ueventd.bahamas.rc
 
 # Add normal Gallery
 PRODUCT_PACKAGES += Gallery
@@ -58,6 +58,16 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+
+# keychars and keylayout files
+PRODUCT_COPY_FILES += \
+    device/htc/click/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
+    device/htc/click/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
+    device/htc/click/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
+    device/htc/click/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    device/htc/click/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
+    device/htc/click/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
+    device/htc/click/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.dec.jpeg.memcap=10000000
@@ -101,9 +111,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # 0 => WCDMA Preferred.
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.telephony.default_network=0 \
-    ro.com.android.dataroaming=false \
-    ro.com.google.locationfeatures=1 \
-    keyguard.no_require_sim=true
+    ro.com.google.locationfeatures=1
 
 PRODUCT_PROPERTY_OVERRIDES += \
     debug.sf.hw=1 \
@@ -130,13 +138,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.compcache.default=18
 
+# Makes HOME ADW / OTHERS to be always in memoory
+PRODUCT_PROPERTY_OVERRIDES += \
+    pref_lock_home=1
+
 # media configuration xml file
 PRODUCT_COPY_FILES += \
-    device/htc/tattoo/media_profiles.xml:/system/etc/media_profiles.xml
+    device/htc/click/media_profiles.xml:/system/etc/media_profiles.xml
 
 # Kernel Targets
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-LOCAL_KERNEL := device/htc/tattoo/custom/kernel
+LOCAL_KERNEL := device/htc/click/custom/kernel
 else
 LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -148,5 +160,5 @@ $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 $(call inherit-product, device/htc/common/common.mk)
 $(call inherit-product, build/target/product/full_base.mk)
 
-PRODUCT_NAME := htc_tattoo
-PRODUCT_DEVICE := tattoo
+PRODUCT_NAME := htc_click
+PRODUCT_DEVICE := click

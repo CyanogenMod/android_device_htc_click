@@ -5,7 +5,7 @@
 
 C=/tmp/backupdir
 S=/system
-V=KalimAz
+V=nFinityGB-0
 
 PROCEED=1;
 
@@ -18,7 +18,7 @@ check_prereq() {
 }
 
 check_installscript() {
-   if [ -f "/tmp/.installscript" ];
+   if [ -f "/tmp/.installscript" -a ! -f "$S/etc/force_backuptool" ];
    then
       echo "/tmp/.installscript found. Skipping backuptool."
       PROCEED=0;
@@ -70,6 +70,7 @@ lib/libspeech.so
 lib/libvoicesearch.so
 etc/hosts
 etc/custom_backup_list.txt
+etc/force_backuptool
 EOF
 }
 

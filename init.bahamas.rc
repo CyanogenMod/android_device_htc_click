@@ -27,6 +27,7 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
+    chown system system /dev/ttyHSUSB0
 
     # Permissions for Liblights.
     chown system system /sys/class/leds/green/brightness
@@ -42,6 +43,11 @@ on boot
     # cpufreq configurations
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate 40000
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold 85
+
+	# performance tweaks for flash
+	write /sys/block/mtdblock3/bdi/read_ahead_kb 4
+	write /sys/block/mtdblock4/bdi/read_ahead_kb 4
+	write /sys/block/mtdblock5/bdi/read_ahead_kb 4
 
 # compass/accelerometer daemon
 service akm8973 /system/bin/akm8973

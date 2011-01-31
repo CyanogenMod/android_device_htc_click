@@ -26,4 +26,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/tattoo.mk
+    $(LOCAL_DIR)/click.mk

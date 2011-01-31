@@ -12,7 +12,7 @@ USE_CAMERA_STUB := true
 BOARD_USE_FROYO_LIBCAMERA := true
 
 # inherit from the proprietary version
--include device/htc/tattoo/BoardConfigVendor.mk
+-include device/htc/click/BoardConfigVendor.mk
 
 # ARMv6-compatible processor rev 5 (v6l)
 TARGET_BOARD_PLATFORM := msm7k
@@ -24,12 +24,12 @@ TARGET_BOOTLOADER_BOARD_NAME := bahamas
 
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
-TARGET_NO_RECOVERY := false
+TARGET_NO_RECOVERY := true
 
-BOARD_LDPI_RECOVERY := true
+BOARD_LDPI_RECOVERY := false
 
-TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/tattoo/custom/recovery_kernel
-TARGET_PREBUILT_KERNEL := device/htc/tattoo/custom/kernel
+TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/click/custom/recovery_kernel
+TARGET_PREBUILT_KERNEL := device/htc/click/custom/kernel
 
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
@@ -39,8 +39,8 @@ WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/wlan.ko"
 WIFI_DRIVER_MODULE_ARG      := ""
 WIFI_DRIVER_MODULE_NAME     := "wlan"
 WIFI_FIRMWARE_LOADER        := "wlan_loader"
-WIFI_DRIVER_FW_STA_PATH     := "/etc/firmware/tiinit_5.3.53.bts"
-WIFI_DRIVER_FW_AP_PATH      := "/etc/wifi/Fw1251r1c.bin"
+#WIFI_DRIVER_FW_STA_PATH     := "/etc/firmware/tiinit_5.3.53.bts"
+#WIFI_DRIVER_FW_AP_PATH      := "/etc/wifi/Fw1251r1c.bin"
 
 TARGET_PROVIDES_INIT_RC := false
 
@@ -50,7 +50,7 @@ BOARD_KERNEL_BASE := 0x02E00000
 BOARD_USES_GENERIC_AUDIO := false
 
 # Use HTC USB Function Switch to enable tethering via USB
-BOARD_USE_HTC_USB_FUNCTION_SWITCH := true
+# BOARD_USE_HTC_USB_FUNCTION_SWITCH := true
 
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 
@@ -65,7 +65,7 @@ BOARD_HAS_LIMITED_EGL := true
 TARGET_HARDWARE_3D := false
 
 # OpenGL drivers config file path
-BOARD_EGL_CFG := device/htc/tattoo/egl.cfg
+BOARD_EGL_CFG := device/htc/click/egl.cfg
 
 # No authoring clock for OpenCore
 # BOARD_NO_PV_AUTHORING_CLOCK := true
@@ -92,7 +92,7 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/htc/common
 # mtd3: 09600000 00020000 "system"
 # mtd4: 09600000 00020000 "cache"
 # mtd5: 0a520000 00020000 "userdata"
-# Changed for Tattoo
+# Changed for click
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00280000
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00500000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x09600000
