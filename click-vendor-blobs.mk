@@ -50,9 +50,9 @@ PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
     device/htc/click/proprietary/libhtc_acoustic.so:system/lib/libhtc_acoustic.so \
     device/htc/click/proprietary/libhtc_ril.so:system/lib/libhtc_ril.so \
-    device/htc/click/firmware/Fw1251r1c.bin:system/etc/wifi/Fw1251r1c.bin \
-    device/htc/click/firmware/brf6300.bin:system/etc/firmware/brf6300.bin \
-    device/htc/click/firmware/brf6350.bin:system/etc/firmware/brf6350.bin
+    device/htc/click/proprietary/firmware/Fw1251r1c.bin:system/etc/wifi/Fw1251r1c.bin \
+    device/htc/click/proprietary/firmware/brf6300.bin:system/etc/firmware/brf6300.bin \
+    device/htc/click/proprietary/firmware/brf6350.bin:system/etc/firmware/brf6350.bin
 
 ifdef WITH_WINDOWS_MEDIA
 PRODUCT_COPY_FILES += \
