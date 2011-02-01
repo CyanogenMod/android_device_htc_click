@@ -22,12 +22,6 @@
     adb pull /system/lib/libmm-adspsvc.so proprietary/
     adb pull /system/lib/libhtc_acoustic.so proprietary/
     adb pull /system/lib/libhtc_ril.so proprietary/
-    adb pull /system/lib/libomx_wmadec_sharedlibrary.so proprietary/
-    adb pull /system/lib/libomx_wmvdec_sharedlibrary.so proprietary/
-    adb pull /system/lib/libpvasfcommon.so proprietary/
-    adb pull /system/lib/libpvasflocalpbreg.so proprietary/
-    adb pull /system/lib/libpvasflocalpb.so proprietary/
-    adb pull /system/etc/pvasflocal.cfg proprietary/
     adb pull /system/bin/akm8973 proprietary/
     adb pull /system/usr/keychars/bahamas-keypad.kcm.bin proprietary/keychars/
     adb pull /system/usr/keychars/qwerty.kcm.bin proprietary/keychars/

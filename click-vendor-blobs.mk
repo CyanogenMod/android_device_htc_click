@@ -27,10 +27,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/akm8973:system/bin/akm8973
 
-# psfreedom files
-PRODUCT_COPY_FILES += \
-    device/htc/click/custom/modules.recovery/psfreedom.ko:recovery/root/res/modules/psfreedom.ko
-
 # proprietary stuff
 PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/AudioPara4.csv:system/etc/AudioPara4.csv \
@@ -54,13 +50,3 @@ PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/firmware/brf6300.bin:system/etc/firmware/brf6300.bin \
     device/htc/click/proprietary/libgps.so:system/lib/libgps.so \
     device/htc/click/proprietary/firmware/brf6350.bin:system/etc/firmware/brf6350.bin
-
-ifdef WITH_WINDOWS_MEDIA
-PRODUCT_COPY_FILES += \
-    device/htc/click/proprietary/libomx_wmadec_sharedlibrary.so:system/lib/libomx_wmadec_sharedlibrary.so \
-    device/htc/click/proprietary/libomx_wmvdec_sharedlibrary.so:system/lib/libomx_wmvdec_sharedlibrary.so \
-    device/htc/click/proprietary/libpvasfcommon.so:system/lib/libpvasfcommon.so \
-    device/htc/click/proprietary/libpvasflocalpbreg.so:system/lib/libpvasflocalpbreg.so \
-    device/htc/click/proprietary/libpvasflocalpb.so:system/lib/libpvasflocalpb.so \
-    device/htc/click/proprietary/pvasflocal.cfg:system/etc/pvasflocal.cfg
-endif
