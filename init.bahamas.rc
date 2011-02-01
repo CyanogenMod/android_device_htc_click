@@ -23,9 +23,6 @@ on boot
     # write screen calibration
     write /sys/class/input/input1/calibration_points 794,867,213,863,502,493,798,120,198,139
 
-    # for playing streaming
-    chown media media /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
@@ -47,10 +44,13 @@ on boot
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate 40000
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold 85
 
-	# performance tweaks for flash
-	write /sys/block/mtdblock3/bdi/read_ahead_kb 4
-	write /sys/block/mtdblock4/bdi/read_ahead_kb 4
-	write /sys/block/mtdblock5/bdi/read_ahead_kb 4
+    # performance tweaks for flash
+    write /sys/block/mtdblock3/bdi/read_ahead_kb 4
+    write /sys/block/mtdblock4/bdi/read_ahead_kb 4
+    write /sys/block/mtdblock5/bdi/read_ahead_kb 4
+
+    # CPU_Scaling Governor make permissions
+    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 
 # compass/accelerometer daemon
 service akm8973 /system/bin/akm8973
