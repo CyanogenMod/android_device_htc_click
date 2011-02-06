@@ -39,7 +39,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/proprietary/libaudioeq.so:system/lib/libaudioeq.so \
     device/htc/click/proprietary/libqcamera.so:system/lib/libqcamera.so \
     device/htc/click/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
-    device/htc/click/proprietary/libGLES_qcom.so:system/lib/egl/libGLES_qcom.so \
     device/htc/click/proprietary/libOmxH264Dec.so:system/lib/libOmxH264Dec.so \
     device/htc/click/proprietary/libOmxMpeg4Dec.so:system/lib/libOmxMpeg4Dec.so \
     device/htc/click/proprietary/libOmxVidEnc.so:system/lib/libOmxVidEnc.so \

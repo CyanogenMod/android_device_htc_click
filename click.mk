@@ -114,8 +114,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.locationfeatures=1
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    debug.sf.hw=1 \
-    ro.opengles.version=65537 \
+    ro.opengles.version=65536 \
     persist.sys.use_dithering=0
 
 # Disable fs check on boot by default
