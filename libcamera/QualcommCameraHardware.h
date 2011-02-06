@@ -28,6 +28,8 @@ extern "C" {
 #include "msm_camera.h"
 }
 
+#define version "10.12"
+
 #define MSM_CAMERA_CONTROL "/dev/msm_camera/msm_camera0"
 #define JPEG_EVENT_DONE 0 /* guess */
 
@@ -276,7 +278,8 @@ private:
                         const char *name);
     };
 
-    sp<PreviewPmemPool> mPreviewHeap;
+    //sp<PreviewPmemPool> mPreviewHeap;
+    sp<PmemPool> mPreviewHeap;
     sp<PmemPool> mThumbnailHeap;
     sp<PmemPool> mRawHeap;
     sp<AshmemPool> mJpegHeap;
