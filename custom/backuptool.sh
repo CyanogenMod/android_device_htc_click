@@ -5,7 +5,7 @@
 
 C=/tmp/backupdir
 S=/system
-V=nFinityGB-0
+V=CyanogenMod
 
 PROCEED=1;
 
