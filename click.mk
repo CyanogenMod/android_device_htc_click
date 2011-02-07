@@ -26,8 +26,6 @@ PRODUCT_COPY_FILES += \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
     device/htc/click/vold.fstab:system/etc/vold.fstab
 
-$(call inherit-product, device/htc/click/click-vendor-blobs.mk)
-
 PRODUCT_PACKAGES += \
     librs_jni \
     sensors.bahamas \
@@ -61,13 +59,27 @@ PRODUCT_COPY_FILES += \
 
 # keychars and keylayout files
 PRODUCT_COPY_FILES += \
-    device/htc/click/proprietary/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
-    device/htc/click/proprietary/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
-    device/htc/click/proprietary/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
-    device/htc/click/proprietary/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/htc/click/proprietary/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
-    device/htc/click/proprietary/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    device/htc/click/proprietary/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
+    device/htc/click/custom/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
+    device/htc/click/custom/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
+    device/htc/click/custom/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
+    device/htc/click/custom/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    device/htc/click/custom/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
+    device/htc/click/custom/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
+    device/htc/click/custom/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
+
+# extra etc config files
+PRODUCT_COPY_FILES += \
+    device/htc/click/custom/10calibrate_screen:system/etc/init.d/10calibrate_screen \
+    device/htc/click/custom/sysctl.conf:system/etc/sysctl.conf
+
+# precompiled files for /system/bin
+PRODUCT_COPY_FILES += \
+    device/htc/click/custom/compcache:system/bin/compcache \
+    device/htc/click/custom/rzscontrol:system/bin/rzscontrol
+
+# Backup-Tool for install
+PRODUCT_COPY_FILES += \
+    device/htc/click/custom/backuptool.sh:system/bin/backuptool.sh
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.dec.jpeg.memcap=10000000
@@ -155,9 +167,16 @@ endif
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
+
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 $(call inherit-product, device/htc/common/common.mk)
 $(call inherit-product, build/target/product/full_base.mk)
 
 PRODUCT_NAME := htc_click
 PRODUCT_DEVICE := click
+
+# See comment at the top of this file. This is where the other
+# half of the device-specific product definition file takes care
+# of the aspects that require proprietary drivers that aren't
+# commonly available
+$(call inherit-product-if-exists, vendor/htc/click/click-vendor.mk)

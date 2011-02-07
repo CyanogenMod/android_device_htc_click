@@ -12,7 +12,7 @@ USE_CAMERA_STUB := true
 BOARD_USE_FROYO_LIBCAMERA := true
 
 # inherit from the proprietary version
--include device/htc/click/BoardConfigVendor.mk
+-include vendor/htc/click/BoardConfigVendor.mk
 
 # ARMv6-compatible processor rev 5 (v6l)
 TARGET_BOARD_PLATFORM := msm7k
@@ -63,7 +63,7 @@ BOARD_HAS_LIMITED_EGL := true
 TARGET_HARDWARE_3D := false
 
 # OpenGL drivers config file path
-BOARD_EGL_CFG := device/htc/click/egl.cfg
+BOARD_EGL_CFG := device/htc/click/custom/egl.cfg
 
 # No authoring clock for OpenCore
 # BOARD_NO_PV_AUTHORING_CLOCK := true
