@@ -1,16 +1,16 @@
 /*
 ** Copyright 2008, Google Inc.
 **
-** Licensed under the Apache License, Version 2.0 (the "License"); 
-** you may not use this file except in compliance with the License. 
-** You may obtain a copy of the License at 
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
 **
-**     http://www.apache.org/licenses/LICENSE-2.0 
+**     http://www.apache.org/licenses/LICENSE-2.0
 **
-** Unless required by applicable law or agreed to in writing, software 
-** distributed under the License is distributed on an "AS IS" BASIS, 
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-** See the License for the specific language governing permissions and 
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
 ** limitations under the License.
 */
 
@@ -28,7 +28,7 @@ extern "C" {
 #include "msm_camera.h"
 }
 
-#define version "10.12"
+#define version "10.12.11"
 
 #define MSM_CAMERA_CONTROL "/dev/msm_camera/msm_camera0"
 #define JPEG_EVENT_DONE 0 /* guess */
@@ -110,7 +110,7 @@ typedef struct
     unsigned int in2_h;
     unsigned int out2_w;
     unsigned int out2_h;
-    uint8_t update_flag; 
+    uint8_t update_flag;
 } common_crop_t;
 
 typedef struct
