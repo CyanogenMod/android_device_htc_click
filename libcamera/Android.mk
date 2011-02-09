@@ -13,17 +13,18 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS:=optional
 
-LOCAL_SRC_FILES:= QualcommCameraHardware.cpp exifwriter.c
+LOCAL_SRC_FILES:= QualcommCameraHardware.cpp exifwriter.c jdatadst.cpp jpegConvert.cpp
 
 LOCAL_CFLAGS:= -DDLOPEN_LIBMMCAMERA=$(DLOPEN_LIBMMCAMERA)
 
 LOCAL_C_INCLUDES+= \
-	vendor/qcom/proprietary/mm-camera/common \
-	vendor/qcom/proprietary/mm-camera/apps/appslib \
-	external/jhead \
-	vendor/qcom/proprietary/mm-camera/jpeg/inc
+        vendor/qcom/proprietary/mm-camera/common \
+        vendor/qcom/proprietary/mm-camera/apps/appslib \
+        external/jhead \
+        external/jpeg \
+        vendor/qcom/proprietary/mm-camera/jpeg/inc
 
-LOCAL_SHARED_LIBRARIES:= libbinder libutils libcamera_client liblog
+LOCAL_SHARED_LIBRARIES:= libbinder libutils libcamera_client liblog libjpeg
 
 ifneq ($(DLOPEN_LIBMMCAMERA),1)
 LOCAL_SHARED_LIBRARIES+= libmmcamera libmm-qcamera-tgt
