@@ -25,7 +25,7 @@ TARGET_BOOTLOADER_BOARD_NAME := bahamas
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RADIOIMAGE := true
 
-BOARD_LDPI_RECOVERY := false
+BOARD_LDPI_RECOVERY := true
 
 TARGET_PREBUILT_RECOVERY_KERNEL := device/htc/click/custom/recovery_kernel
 TARGET_PREBUILT_KERNEL := device/htc/click/custom/kernel
