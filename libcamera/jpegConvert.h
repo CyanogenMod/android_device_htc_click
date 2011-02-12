@@ -29,8 +29,8 @@ public:
      *  @return true if successfully compressed the stream.
      */
     bool encode(unsigned char* dest, void* inYuv, int width,
-        int height, int* offsets, int jpegQuality);
-
+        int height, int* offsets, int jpegQuality, uint32_t* mSize);
+    uint32_t mJpegTam;
     virtual ~YuvToJpegEncoder() {}
 
 protected:

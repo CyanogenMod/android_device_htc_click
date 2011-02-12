@@ -28,7 +28,7 @@ extern "C" {
 #include "msm_camera.h"
 }
 
-#define version "10.12.11"
+#define version "11.04.01"
 
 #define MSM_CAMERA_CONTROL "/dev/msm_camera/msm_camera0"
 #define JPEG_EVENT_DONE 0 /* guess */

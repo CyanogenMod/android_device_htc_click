@@ -32,6 +32,8 @@
 #include <linux/ioctl.h>
 #include "raw2jpeg.h"
 
+// #define iLog(fmt, args...) LOGD(fmt, ##args)
+
 #define LIKELY(exp)   __builtin_expect(!!(exp), 1)
 #define UNLIKELY(exp) __builtin_expect(!!(exp), 0)
 
@@ -850,19 +852,19 @@ void QualcommCameraHardware::runJpegEncodeThread(void *data)
         npt = NULL ;
     }
 
-    writeExif( mRawHeap->mHeap->base(), mJpegHeap->mHeap->base(), mJpegSize, &mJpegSize, rotation , npt );
+    // writeExif( mRawHeap->mHeap->base(), mJpegHeap->mHeap->base(), mJpegSize, &mJpegSize, rotation , npt );
 
     int jpeg_quality = mParameters.getInt("jpeg-quality");
 
-    LOGV("Kalim: Inicio conversion a JPEG ----------------------------------------------------------------------------------------------");
-    LOGV("KalimochoAz jpeg convert, current jpeg main img quality =%d", jpeg_quality);
-    LOGV("KalimochoAz jpeg convert, current jpeg main img Height =%d", mRawHeight);
-    LOGV("KalimochoAz jpeg convert, current jpeg main img Width =%d", mRawWidth);
-    if( yuv420_save2jpeg((unsigned char*) mJpegHeap->mHeap->base(), mRawHeap->mHeap->base(), mRawWidth, mRawHeight, jpeg_quality) )
+    LOGD("Kalim: Inicio conversion a JPEG ----------------------------------------------------------------------------------------------");
+    LOGD("KalimochoAz jpeg convert, current jpeg main img quality =%d", jpeg_quality);
+    LOGD("KalimochoAz jpeg convert, current jpeg main img Height =%d", mRawHeight);
+    LOGD("KalimochoAz jpeg convert, current jpeg main img Width =%d", mRawWidth);
+    if( yuv420_save2jpeg((unsigned char*) mJpegHeap->mHeap->base(), mRawHeap->mHeap->base(), mRawWidth, mRawHeight, jpeg_quality, &mJpegSize) )
         LOGV("Kalim: JpegConvetida Correctamente ***********************************************************************************************************");
     else
         LOGV("Kalim: Fallo de conversion a JPEG xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-
+    LOGD("KalimochoAz jpeg convert, current jpeg main img jpegSize =%d ........", mJpegSize);
 
     receiveJpegPicture();
 }
@@ -1606,9 +1608,9 @@ CameraParameters QualcommCameraHardware::getParameters() const
 
 extern "C" sp<CameraHardwareInterface> openCameraHardware()
 {
-    LOGV("*-------------------------------------------------------------------------------------*");
-    LOGV("[M a@openCameraHardware: call createInstance v: %s",version);
-    LOGV("*-------------------------------------------------------------------------------------*");
+    LOGD("*-------------------------------------------------------------------------------------*");
+    LOGD("[M a@openCameraHardware: call createInstance v: %s",version);
+    LOGD("*-------------------------------------------------------------------------------------*");
     return QualcommCameraHardware::createInstance();
 }
 
