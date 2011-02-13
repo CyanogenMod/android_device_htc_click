@@ -180,3 +180,6 @@ PRODUCT_DEVICE := click
 # of the aspects that require proprietary drivers that aren't
 # commonly available
 $(call inherit-product-if-exists, vendor/htc/click/click-vendor.mk)
+
+# Added all the kernel modules to be copyed
+$(call inherit-product-if-exists, device/htc/click/KernelModules.mk)
