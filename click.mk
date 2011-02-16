@@ -16,14 +16,8 @@
 
 DEVICE_PACKAGE_OVERLAYS += device/htc/click/overlay
 
-# Live wallpaper packages
-PRODUCT_PACKAGES += \
-    LiveWallpapersPicker \
-    librs_jni
-
-# Publish that we support the live wallpaper feature.
+# Defines for Vold to config fstab defs
 PRODUCT_COPY_FILES += \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml \
     device/htc/click/vold.fstab:system/etc/vold.fstab
 
 PRODUCT_PACKAGES += \

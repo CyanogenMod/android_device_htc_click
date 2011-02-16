@@ -41,7 +41,7 @@
 /******************************************************************************/
 
 #if defined(COPYBIT_MSM7K)
-#define MAX_SCALE_FACTOR    (4)
+#define MAX_SCALE_FACTOR    (3)
 #define MAX_DIMENSION       (4096)
 #elif defined(COPYBIT_QSD8K)
 #define MAX_SCALE_FACTOR    (8)
@@ -453,7 +453,7 @@ static int open_copybit(const struct hw_module_t* module, const char* name,
     ctx->mAlpha = MDP_ALPHA_NOP;
     ctx->mFlags = 0;
     ctx->mFD = open("/dev/graphics/fb0", O_RDWR, 0);
-    
+
     if (ctx->mFD < 0) {
         status = errno;
         LOGE("Error opening frame buffer errno=%d (%s)",
@@ -462,7 +462,7 @@ static int open_copybit(const struct hw_module_t* module, const char* name,
     } else {
         struct fb_fix_screeninfo finfo;
         if (ioctl(ctx->mFD, FBIOGET_FSCREENINFO, &finfo) == 0) {
-            if (strcmp(finfo.id, "msmfb") == 0) {
+            if (strncmp(finfo.id, "msmfb", 5) == 0) {
                 /* Success */
                 status = 0;
             } else {
