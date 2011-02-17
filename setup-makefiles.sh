@@ -38,7 +38,7 @@ mkdir -p ../../../vendor/$MANUFACTURER/$DEVICE
 
 # Live wallpaper packages
 PRODUCT_PACKAGES := \\
-    LiveWallpapers \\
+    LiveWallpapersPicker \\
     librs_jni
 
 # Pick up overlay for features that depend on non-open-source files
