@@ -28,7 +28,7 @@ extern "C" {
 #include "msm_camera.h"
 }
 
-#define version "11.04.01"
+#define version "7002"
 
 #define MSM_CAMERA_CONTROL "/dev/msm_camera/msm_camera0"
 #define JPEG_EVENT_DONE 0 /* guess */
@@ -206,7 +206,6 @@ private:
     static const int kJpegBufferCount = 1;
     static const int kRawFrameHeaderSize = 0;
 
-    //TODO: put the picture dimensions in the CameraParameters object;
     CameraParameters mParameters;
     int mPreviewHeight;
     int mPreviewWidth;

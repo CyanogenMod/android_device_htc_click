@@ -6,8 +6,8 @@
 typedef struct
 {
     uint32_t timestamp;  /* seconds since 1/6/1980          */
-    double   latitude;   /* degrees, WGS ellipsoid */
-    double   longitude;  /* degrees                */
+    double   latitude;   /* degrees, WGS ellipsoid          */
+    double   longitude;  /* degrees                         */
     int16_t  altitude;   /* meters                          */
 } camera_position_type;
 
