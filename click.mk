@@ -72,10 +72,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/handle_compcache:system/bin/handle_compcache \
     device/htc/click/custom/rzscontrol:system/bin/rzscontrol
 
-# Backup-Tool for install
-PRODUCT_COPY_FILES += \
-    device/htc/click/custom/backuptool.sh:system/bin/backuptool.sh
-
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.media.dec.jpeg.memcap=10000000
 
