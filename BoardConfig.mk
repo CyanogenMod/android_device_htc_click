@@ -51,12 +51,16 @@ BOARD_USES_GENERIC_AUDIO := false
 
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 
+# libsurfaceflinger to avoid Draw Texture Extension
+BOARD_AVOID_DRAW_TEXTURE_EXTENSION := true
+
 BOARD_HAVE_BLUETOOTH := true
 
 BOARD_VENDOR_USE_AKMD := akm8973
 
 BOARD_VENDOR_QCOM_AMSS_VERSION := 1355
 
+# Change for Gallery 3D or not
 BOARD_HAS_LIMITED_EGL := true
 
 TARGET_HARDWARE_3D := false

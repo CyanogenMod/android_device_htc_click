@@ -41,9 +41,6 @@ PRODUCT_PACKAGES := \\
     LiveWallpapersPicker \\
     librs_jni
 
-# Pick up overlay for features that depend on non-open-source files
-DEVICE_PACKAGE_OVERLAYS := vendor/__MANUFACTURER__/__DEVICE__/overlay
-
 \$(call inherit-product, vendor/__MANUFACTURER__/__DEVICE__/device-vendor-blobs.mk)
 EOF
 

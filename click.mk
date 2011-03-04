@@ -20,6 +20,7 @@ DEVICE_PACKAGE_OVERLAYS += device/htc/click/overlay
 PRODUCT_COPY_FILES += \
     device/htc/click/vold.fstab:system/etc/vold.fstab
 
+# Libs to be added to this ROM
 PRODUCT_PACKAGES += \
     librs_jni \
     sensors.bahamas \
@@ -36,12 +37,13 @@ PRODUCT_PACKAGES += \
     librpc \
     dhcpcd.conf
 
+# Add Gallery 3D / Normal
+PRODUCT_PACKAGES += Gallery
+
+# Boot kernel files
 PRODUCT_COPY_FILES += \
     device/htc/click/init.bahamas.rc:root/init.bahamas.rc \
     device/htc/click/ueventd.bahamas.rc:root/ueventd.bahamas.rc
-
-# Add normal Gallery
-PRODUCT_PACKAGES += Gallery
 
 # from device_dream_sapphire.mk
 PRODUCT_COPY_FILES += \
