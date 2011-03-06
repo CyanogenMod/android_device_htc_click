@@ -31,11 +31,26 @@ PRODUCT_PACKAGES += \
     libOmxCore \
     libmm-omxcore \
     libOmxVidEnc \
-    wlan_loader \
-    tiwlan.ini \
     libcamera \
     librpc \
     dhcpcd.conf
+
+#WiFi stuff
+PRODUCT_PACKAGES += \
+    wpa_supplicant.conf \
+    tiwlan.ini \
+    dhcpcd.conf \
+    wlan_cu \
+    wlan_loader \
+    libCustomWifi
+
+#HotSpot
+PRODUCT_PACKAGES += \
+    tiap_loader \
+    tiap_cu \
+    tiwlan_ap.ini \
+    hostap \
+    hostapd.conf
 
 # Add Gallery 3D / Normal
 PRODUCT_PACKAGES += Gallery
@@ -65,7 +80,6 @@ PRODUCT_COPY_FILES += \
 
 # extra etc config files
 PRODUCT_COPY_FILES += \
-    device/htc/click/custom/10calibrate_screen:system/etc/init.d/10calibrate_screen \
     device/htc/click/custom/sysctl.conf:system/etc/sysctl.conf
 
 # precompiled files for /system/bin

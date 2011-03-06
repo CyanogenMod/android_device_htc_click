@@ -33,11 +33,12 @@ TARGET_PREBUILT_KERNEL := device/htc/click/custom/kernel
 # Wifi related defines
 BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libWifiApi
+BOARD_WLAN_DEVICE           := wl1251
 BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/sta_dk_4_0_4_32
-WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/wlan.ko"
+WIFI_DRIVER_MODULE_PATH     := /system/lib/modules/wlan.ko
 WIFI_DRIVER_MODULE_ARG      := ""
-WIFI_DRIVER_MODULE_NAME     := "wlan"
-WIFI_FIRMWARE_LOADER        := "wlan_loader"
+WIFI_DRIVER_MODULE_NAME     := wlan
+WIFI_FIRMWARE_LOADER        := wlan_loader
 
 TARGET_PROVIDES_INIT_RC := false
 
@@ -51,10 +52,9 @@ BOARD_USES_GENERIC_AUDIO := false
 
 BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 
-# libsurfaceflinger to avoid Draw Texture Extension
-BOARD_AVOID_DRAW_TEXTURE_EXTENSION := true
-
 BOARD_HAVE_BLUETOOTH := true
+
+BOARD_AVOID_DRAW_TEXTURE_EXTENSION := true
 
 BOARD_VENDOR_USE_AKMD := akm8973
 
@@ -71,6 +71,9 @@ BOARD_EGL_CFG := device/htc/click/custom/egl.cfg
 # No authoring clock for OpenCore
 # BOARD_NO_PV_AUTHORING_CLOCK := true
 
+BOARD_HAVE_FM_RADIO := true
+BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
+
 BOARD_USES_QCOM_LIBS := true
 
 BOARD_USES_GPSSHIM := true
@@ -81,6 +84,7 @@ TARGET_LIBAGL_USE_GRALLOC_COPYBITS := true
 
 BOARD_NO_RGBX_8888 := true
 
+WITH_DEXPREOPT := true
 JS_ENGINE := v8
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/htc/common
