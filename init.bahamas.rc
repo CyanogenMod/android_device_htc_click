@@ -60,6 +60,11 @@ service akm8973 /system/bin/akm8973
     user compass
     group compass misc input
 
+service calibrate_screen /system/bin/calibrate_screen
+    user root
+    group root
+    oneshot
+
 service wlan_loader /system/bin/wlan_loader \
     -f /system/etc/wifi/Fw1251r1c.bin -e /proc/calibration \
     -i /system/etc/wifi/tiwlan.ini
