@@ -11,21 +11,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/hid/hid-dummy.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/hid/hid-dummy.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/net/wireless/tiwlan1251/wlan.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/net/wireless/tiwlan1251/wlan.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/staging/ramzswap/ramzswap.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/staging/ramzswap/ramzswap.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/xfrm/xfrm_ipcomp.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/xfrm/xfrm_ipcomp.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/ipcomp6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/ipcomp6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/esp6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/esp6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/mip6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/mip6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_transport.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_transport.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_tunnel.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_tunnel.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_beet.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_beet.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/ipv6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/ipv6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/sit.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/sit.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/tunnel6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/tunnel6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_ro.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_mode_ro.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_tunnel.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/xfrm6_tunnel.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/ah6.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/ah6.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv6/ip6_tunnel.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv6/ip6_tunnel.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/ipv4/tunnel4.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/ipv4/tunnel4.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/netfilter/xt_TCPMSS.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/netfilter/xt_TCPMSS.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/modules.ccwmap:system/lib/modules/2.6.29.6-Kalim/modules.ccwmap \
     device/htc/click/custom/modules/2.6.29.6-Kalim/modules.seriomap:system/lib/modules/2.6.29.6-Kalim/modules.seriomap \
