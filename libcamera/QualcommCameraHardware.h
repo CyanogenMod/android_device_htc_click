@@ -28,8 +28,7 @@ extern "C" {
 #include "msm_camera.h"
 }
 
-#define version "7002"
-
+#define REVISION_H "1"
 #define MSM_CAMERA_CONTROL "/dev/msm_camera/control0"
 #define JPEG_EVENT_DONE 0 /* guess */
 
@@ -45,10 +44,12 @@ extern "C" {
 
 #define CAMERA_SET_PARM_AUTO_FOCUS 13
 #define CAMERA_START_SNAPSHOT 40
-#define CAMERA_STOP_SNAPSHOT 41 /* guess, but likely based on previos ording */
+#define CAMERA_STOP_SNAPSHOT 42 //41
 
 #define AF_MODE_AUTO 2
 #define CAMERA_AUTO_FOCUS_CANCEL 1 //204
+
+#define PAD_TO_WORD(x) ((x&1) ? x+1 : x)
 
 typedef enum
 {
@@ -189,6 +190,20 @@ private:
     void stopPreviewInternal();
     friend void *auto_focus_thread(void *user);
     void runAutoFocus();
+    bool reg_unreg_buf(int camfd,
+                       int width,
+                       int height,
+                       msm_frame_t *frame,
+                       msm_pmem_t pmem_type,
+                       unsigned char unregister,
+                       unsigned char active);
+    void native_register_preview_bufs(int camfd,
+                                      void *pDim,
+                                      struct msm_frame_t *frame,
+                                      unsigned char active);
+    void native_unregister_preview_bufs(int camfd,
+                                        void *pDim,
+                                        struct msm_frame_t *frame);
     bool native_set_dimension (int camfd);
     bool native_jpeg_encode (void);
     bool native_set_parm(cam_ctrl_type type, uint16_t length, void *value);
@@ -201,11 +216,12 @@ private:
        for preview and raw, and need to be updated when libmmcamera
        changes.
     */
-    static const int kPreviewBufferCount = 4;
+    static const int kPreviewBufferCount = 2;
     static const int kRawBufferCount = 1;
     static const int kJpegBufferCount = 1;
     static const int kRawFrameHeaderSize = 0;
 
+    //TODO: put the picture dimensions in the CameraParameters object;
     CameraParameters mParameters;
     int mPreviewHeight;
     int mPreviewWidth;
@@ -277,8 +293,7 @@ private:
                         const char *name);
     };
 
-    //sp<PreviewPmemPool> mPreviewHeap;
-    sp<PmemPool> mPreviewHeap;
+    sp<PreviewPmemPool> mPreviewHeap;
     sp<PmemPool> mThumbnailHeap;
     sp<PmemPool> mRawHeap;
     sp<AshmemPool> mJpegHeap;
