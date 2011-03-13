@@ -105,4 +105,4 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0a520000
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Add LUNFILE configuration to the system
-BOARD_UMS_LUNFILE := "/sys/devices/platform/msm_hsusb/gadget/lun0/file"
+BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
