@@ -90,7 +90,7 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/rzscontrol:system/bin/rzscontrol
 
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.media.dec.jpeg.memcap=10000000
+    ro.media.dec.jpeg.memcap=20000000
 
 PRODUCT_PROPERTY_OVERRIDES += \
     rild.libpath=/system/lib/libhtc_ril.so \

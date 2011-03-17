@@ -14,7 +14,7 @@
 ** limitations under the License.
 */
 // NOTE VERSION_C
-#define REVISION_C "7006.3."
+#define REVISION_C "7007.2."
 //#define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -58,8 +58,6 @@ extern "C" {
 #include <poll.h>
 
 #include "msm_camera.h" // Tattoo kernel
-
-#define REVISION "0.4"
 
 // init for Tattoo
 #define THUMBNAIL_WIDTH_STR   "192"
@@ -140,6 +138,7 @@ static preview_size_type preview_sizes[] = {
     { 288, 192 },
     { 240, 240 }, // QCIF
     { 240, 160 }, // SQVGA
+    { 176, 144 }
 };
 
 static int attr_lookup(const struct str_map *const arr, const char *name)
@@ -314,7 +313,7 @@ void QualcommCameraHardware::initDefaultParameters()
     p.set(CameraParameters::KEY_SUPPORTED_EFFECTS, effect_values);
     p.set(CameraParameters::KEY_SUPPORTED_WHITE_BALANCE, whitebalance_values);
     p.set(CameraParameters::KEY_SUPPORTED_PICTURE_SIZES, "2048x1536,1600x1200,1024x768");
-    p.set(CameraParameters::KEY_SUPPORTED_PREVIEW_SIZES, "320x240,240x160,192x144");
+    p.set(CameraParameters::KEY_SUPPORTED_PREVIEW_SIZES, "320x240,240x160,176x144");
 
     if (setParameters(p) != NO_ERROR) {
         LOGE("Failed to set default parameters?!");
@@ -453,6 +452,7 @@ void QualcommCameraHardware::startCamera()
     else
         LOGV("Config thread created successfully");
 
+    // init this in order to avoid false preview displays
     bFramePresent=false;
 
     LOGV("startCamera X");
@@ -824,7 +824,7 @@ static void *prev_frame_click(void *user)
     return NULL;
 }
 
-// customized cam_frame function based on reassembled libmmcamera.so
+// customized camframe_callback function based on reassembled libmmcamera.so
 static void *cam_frame_click(void *data)
 {
     LOGV("Entering cam_frame_click");
@@ -940,26 +940,26 @@ void QualcommCameraHardware::runJpegEncodeThread(void *data)
     bool encode_location = true;
         camera_position_type pt;
 
-        #define PARSE_LOCATION(what,type,fmt,desc) do { \
-                pt.what = 0; \
-                const char *what##_str = mParameters.get("gps-"#what); \
-                LOGD("GPS PARM %s --> [%s]", "gps-"#what, what##_str); \
-                if (what##_str) { \
-                        type what = 0; \
-                        if (sscanf(what##_str, fmt, &what) == 1) \
-                                pt.what = what; \
-                        else { \
-                                LOGE("GPS " #what " %s could not" \
-                                " be parsed as a " #desc, what##_str); \
-                                encode_location = false; \
-                        } \
-                } \
-                else { \
-                        LOGD("GPS " #what " not specified: " \
-                        "defaulting to zero in EXIF header."); \
-                        encode_location = false; \
-                } \
-        } while(0)
+    #define PARSE_LOCATION(what,type,fmt,desc) do {                 \
+            pt.what = 0;                                            \
+            const char *what##_str = mParameters.get("gps-"#what);  \
+            LOGD("GPS PARM %s --> [%s]", "gps-"#what, what##_str);  \
+            if (what##_str) {                                       \
+                    type what = 0;                                  \
+                    if (sscanf(what##_str, fmt, &what) == 1)        \
+                            pt.what = what;                         \
+                    else {                                          \
+                            LOGE("GPS " #what " %s could not"       \
+                            " be parsed as a " #desc, what##_str);  \
+                            encode_location = false;                \
+                    }                                               \
+            }                                                       \
+            else {                                                  \
+                    LOGD("GPS " #what " not specified: "            \
+                    "defaulting to zero in EXIF header.");          \
+                    encode_location = false;                        \
+            }                                                       \
+    } while(0)
 
     PARSE_LOCATION(timestamp, long, "%ld", "long");
     if (!pt.timestamp) pt.timestamp = time(NULL);
@@ -967,7 +967,7 @@ void QualcommCameraHardware::runJpegEncodeThread(void *data)
     PARSE_LOCATION(latitude, double, "%lf", "double float");
     PARSE_LOCATION(longitude, double, "%lf", "double float");
 
-        #undef PARSE_LOCATION
+    #undef PARSE_LOCATION
 
     if (encode_location) {
         LOGD("setting image location ALT %d LAT %lf LON %lf",
@@ -1068,8 +1068,6 @@ bool QualcommCameraHardware::initPreview()
             if (cnt == kPreviewBufferCount - 1) {
                 LOGV("set preview callback");
                 LINK_cam_set_frame_callback();
-
-                // TODO: memset(*s, 0, 0x14)
 
                 mFrameThreadRunning = !pthread_create(&mFrameThread,
                                                       NULL,
