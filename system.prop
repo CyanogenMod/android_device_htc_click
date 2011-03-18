@@ -30,7 +30,7 @@ wifi.interface = tiwlan0
 wifi.supplicant_scan_interval=45
 
 # density in DPI of the LCD of this board. This is used to scale the UI
-# appropriately. If this property is not defined, the default value is 120 dpi. 
+# appropriately. If this property is not defined, the default value is 120 dpi.
 ro.sf.lcd_density=120
 
 # View configuration for QVGA
@@ -67,3 +67,6 @@ ro.compcache.default=18
 
 # Makes HOME ADW / OTHERS to be always in memoory
 pref_lock_home=1
+
+# Default Tether Dissabled
+ro.tether.denied=true
