@@ -33,9 +33,11 @@ extern "C" {
 
 #define CAM_CTRL_SUCCESS 1
 
-#define REVISION_H "1"
+#define REVISION_H "2"
 
 #define CAMERA_SET_PARM_DIMENSION 1
+#define CAMERA_SET_PARM_ZOOM 2
+#define CAMERA_GET_PARM_MAXZOOM 47
 #define CAMERA_SET_PARM_WB 14
 #define CAMERA_SET_PARM_EFFECT 15
 #define CAMERA_SET_PARM_ANTIBANDING 21
@@ -45,7 +47,7 @@ extern "C" {
 
 #define CAMERA_SET_PARM_AUTO_FOCUS 13
 #define CAMERA_START_SNAPSHOT 40
-#define CAMERA_STOP_SNAPSHOT 42 //41
+#define CAMERA_STOP_SNAPSHOT 42
 
 #define AF_MODE_AUTO 2
 #define CAMERA_AUTO_FOCUS_CANCEL 1 //204
@@ -142,6 +144,54 @@ struct str_map {
     int val;
 };
 
+// ********************************************************************************************************
+typedef unsigned int exif_tag_id_t;
+
+#define EXIF_RATIONAL 5
+#define EXIF_ASCII 2
+#define EXIF_BYTE 1
+
+typedef struct {
+        int val;
+        int otherval;
+} rat_t;
+
+
+typedef union {
+        char * _ascii; /* At byte 16 relative to exif_tag_entry_t */
+        rat_t * _rats;
+        rat_t  _rat;
+        uint8_t _byte;
+} exif_tag_data_t;
+
+/* The entire exif_tag_entry_t struct must be 24 bytes in length */
+typedef unsigned int exif_tag_type_t;
+typedef struct {
+        exif_tag_type_t type;
+        uint32_t copy;
+        uint32_t count;
+        exif_tag_data_t data;
+} exif_tag_entry_t;
+
+typedef struct {
+        exif_tag_id_t tag_id;
+        exif_tag_entry_t tag_entry;
+} exif_tags_info_t;
+
+/* EXIF tag IDs */
+#define EXIFTAGID_GPS_LATITUDE 0x20002
+#define EXIFTAGID_GPS_LATITUDE_REF 0x10001
+#define EXIFTAGID_GPS_LONGITUDE 0x40004
+#define EXIFTAGID_GPS_LONGITUDE_REF 0x30003
+#define EXIFTAGID_GPS_ALTITUDE 0x60006
+#define EXIFTAGID_GPS_ALTITUDE_REF 0x50005
+#define EXIFTAGID_EXIF_CAMERA_MAKER 0x21010F
+#define EXIFTAGID_EXIF_CAMERA_MODEL 0x220110
+#define EXIFTAGID_EXIF_DATE_TIME_ORIGINAL 0x3A9003
+#define EXIFTAGID_EXIF_DATE_TIME 0x3B9004
+/* End of values originally in proprietary headers */
+// ********************************************************************************************************
+
 namespace android {
 
 class QualcommCameraHardware : public CameraHardwareInterface {
@@ -169,6 +219,7 @@ public:
     virtual status_t autoFocus();
     virtual status_t takePicture();
     virtual status_t cancelPicture();
+    virtual void initCameraParameters();
     virtual status_t setParameters(const CameraParameters& params);
     virtual CameraParameters getParameters() const;
     virtual status_t sendCommand(int32_t command, int32_t arg1, int32_t arg2);
@@ -195,7 +246,6 @@ public:
 
     void receivePreviewFrame(struct msm_frame_t *frame);
     void receiveJpegPicture(void);
-    void jpeg_set_location();
     void receiveJpegPictureFragment(uint8_t *buf, uint32_t size);
     void notifyShutter();
 
@@ -211,6 +261,8 @@ private:
     bool native_set_parm(cam_ctrl_type type, uint16_t length, void *value);
     bool native_set_dimension(cam_ctrl_dimension_t *value);
     int getParm(const char *parm_str, const str_map *parm_map);
+    void setGpsParameters();
+    const char *KEY_GPS_LATITUDE;
 
     static wp<QualcommCameraHardware> singleton;
 
@@ -218,7 +270,7 @@ private:
        for preview and raw, and need to be updated when libmmcamera
        changes.
     */
-    static const int kPreviewBufferCount = 2;
+    static const int kPreviewBufferCount = 4;
     static const int kRawBufferCount = 1;
     static const int kJpegBufferCount = 1;
     static const int kRawFrameHeaderSize = 0;
@@ -314,8 +366,7 @@ private:
     Condition mFrameThreadWait;
     friend void *frame_thread(void *user);
     void runFrameThread(void *data);
-
-    bool mPrevThreadRunning;
+    status_t setGpsLocation(const CameraParameters& params);
 
     bool mShutterPending;
     Mutex mShutterLock;
@@ -331,6 +382,7 @@ private:
     void setAntibanding();
     void setEffect();
     void setWhiteBalance();
+    void setZoom();
 
     Mutex mLock;
     bool mReleasedRecordingFrame;
@@ -374,13 +426,13 @@ private:
     pthread_t mCamConfigThread;
     pthread_t mFrameThread;
     pthread_t mSnapshotThread;
-    pthread_t mPrevThread;
 
     common_crop_t mCrop;
 
     struct msm_frame_t frames[kPreviewBufferCount];
     bool mInPreviewCallback;
     bool mCameraRecording;
+    int32_t mCurZoom;
 };
 
 }; // namespace android

@@ -2,6 +2,7 @@
 
 #include "jhead.h"
 #define LOG_TAG "ExifWriterCamera"
+//#define LOG_NDEBUG 0
 
 #include <utils/Log.h>
 
@@ -42,6 +43,8 @@ char * float2rationnal( float src )
 
   startx = x = src;
 
+  LOGV("float2rationnal: Convertir %f", src);
+
   /* initialize matrix */
   m[0][0] = m[1][1] = 1;
   m[0][1] = m[1][0] = 0;
@@ -64,15 +67,11 @@ char * float2rationnal( float src )
   /* now remaining x is between 0 and 1/ai */
   /* approx as either 0 or 1/m where m is max that will fit in maxden */
   /* first try zero */
-  LOGV("%ld/%ld, error = %e\n", m[0][0], m[1][0],
-          startx - ((float) m[0][0] / (float) m[1][0]));
 
   /* now try other possibility */
   ai = (maxden - m[1][1]) / m[1][0];
   m[0][0] = m[0][0] * ai + m[0][1];
   m[1][0] = m[1][0] * ai + m[1][1];
-  LOGV("%ld/%ld, error = %e\n", m[0][0], m[1][0],
-          startx - ((float) m[0][0] / (float) m[1][0]));
 
   char *res = (char *)malloc( 256 * sizeof(char) );
 
@@ -83,52 +82,55 @@ char * float2rationnal( float src )
 char * coord2degminsec( float src )
 {
     char *res = (char *)malloc( 256 * sizeof(char) );
+    LOGV("coord2degminsec: Convertir %f", src);
     float *dms = float2degminsec( fabs(src) );
+    LOGV("coord2degminsec: paso1 (float) %f %f %f", dms[0], dms[1], dms[2]);
     strcpy( res, float2rationnal(dms[0]) );
     strcat( res , "," );
     strcat( res , float2rationnal(dms[1]) );
     strcat( res , "," );
     strcat( res , float2rationnal(dms[2]) );
+    LOGV("coord2degminsec: Convertido en %s", res);
     free( dms );
     return res;
 }
 
-     static void dump_to_file(const char *fname,
-                              uint8_t *buf, uint32_t size)
-     {
-         int nw, cnt = 0;
-         uint32_t written = 0;
+static void dump_to_file(const char *fname,
+                         uint8_t *buf, uint32_t size)
+{
+    int nw, cnt = 0;
+    uint32_t written = 0;
 
-         LOGD("opening file [%s]\n", fname);
-         int fd = open(fname, O_RDWR | O_CREAT);
-         if (fd < 0) {
-             LOGE("failed to create file [%s]: %s", fname, strerror(errno));
-             return;
-         }
+    LOGV("opening file [%s]\n", fname);
+    int fd = open(fname, O_RDWR | O_CREAT);
+    if (fd < 0) {
+        LOGE("failed to create file [%s]: %s", fname, strerror(errno));
+        return;
+    }
 
-         LOGD("writing %d bytes to file [%s]\n", size, fname);
-         while (written < size) {
-             nw = write(fd,
-                          buf + written,
-                          size - written);
-             if (nw < 0) {
-                 LOGE("failed to write to file [%s]: %s",
-                      fname, strerror(errno));
-                 break;
-             }
-             written += nw;
-             cnt++;
-         }
-         LOGD("done writing %d bytes to file [%s] in %d passes\n",
-              size, fname, cnt);
-         close(fd);
-     }
+    LOGV("writing %d bytes to file [%s]\n", size, fname);
+    while (written < size) {
+        nw = write(fd,
+                     buf + written,
+                     size - written);
+        if (nw < 0) {
+            LOGE("failed to write to file [%s]: %s",
+                 fname, strerror(errno));
+            break;
+        }
+        written += nw;
+        cnt++;
+    }
+    LOGV("done writing %d bytes to file [%s] in %d passes\n",
+         size, fname, cnt);
+    close(fd);
+}
 
 void writeExif( void *origData, void *destData , int origSize , uint32_t *resultSize, int orientation,camera_position_type  *pt ) {
   const char *filename = "/data/temp.jpg";
 
     dump_to_file( filename, (uint8_t *)origData, origSize );
-    LOGD("KalimochoAz WRITE EXIF Filename %s", filename);
+    LOGV("WRITE EXIF Filename %s", filename);
     chmod( filename, S_IRWXU );
     ResetJpgfile();
 
@@ -140,10 +142,10 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
 
     int gpsTag = 0;
     if( pt != NULL ) {
-        LOGD("KalimochoAz EXIF ADD GPS DATA ........");
+        LOGV("EXIF ADD GPS DATA ........");
         gpsTag = 6;
     } else{
-        LOGD("KalimochoAz EXIF NO GPS ........");
+        LOGV("EXIF NO GPS ........");
     }
 
 
@@ -155,7 +157,7 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
     (*it).Format = FMT_USHORT;
     (*it).DataLength = 1;
     unsigned short v;
-    LOGD("KalimochoAz EXIF Orientation %d º", orientation);
+    LOGV("EXIF Orientation %d º", orientation);
     if( orientation == 90 ) {
         (*it).Value = "6";
     } else if( orientation == 180 ) {
@@ -183,9 +185,9 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
 
 
     if( pt != NULL ) {
-        LOGD("pt->latitude == %f", pt->latitude );
-        LOGD("pt->longitude == %f", pt->longitude );
-        LOGD("pt->altitude == %d", pt->altitude );
+        LOGV("pt->latitude == %f", pt->latitude );
+        LOGV("pt->longitude == %f", pt->longitude );
+        LOGV("pt->altitude == %d", pt->altitude );
 
         it++;
         (*it).Tag = 0x01;
@@ -200,6 +202,7 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
 
         it++;
         char *mylat = coord2degminsec( pt->latitude );
+        LOGV("writeExif: La latitud queda en: %s", mylat);
 
         (*it).Tag = 0x02;
         (*it).Format = FMT_URATIONAL;
@@ -221,6 +224,7 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
 
         it++;
         char *mylong = coord2degminsec( (*pt).longitude );
+        LOGV("writeExif: La longitud queda en: %s", mylong);
 
         (*it).Tag = 0x04;
         (*it).Format = FMT_URATIONAL;
@@ -243,6 +247,7 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
 
         it++;
         char *myalt = float2rationnal( fabs( (*pt).altitude ) );
+        LOGV("writeExif: La altitud queda en: %s", myalt);
 
         (*it).Tag = 0x06;
         (*it).Format = FMT_SRATIONAL;
@@ -262,13 +267,13 @@ void writeExif( void *origData, void *destData , int origSize , uint32_t *result
         }
     }
     strncpy(ImageInfo.FileName, filename, PATH_MAX);
-    LOGD("KalimochoAz Image EXIF Filename %s", filename);
+    LOGV("Image EXIF Filename %s", filename);
 
     ReadMode_t ReadMode;
     ReadMode = READ_METADATA;
     ReadMode |= READ_IMAGE;
     int res = ReadJpegFile(filename, (ReadMode_t)ReadMode );
-    LOGD("KalimochoAz READ EXIF Filename %s", filename);
+    LOGV("READ EXIF Filename %s", filename);
 
     create_EXIF( t, 3, gpsTag);
 
