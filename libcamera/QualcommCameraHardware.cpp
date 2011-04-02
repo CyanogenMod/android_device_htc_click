@@ -14,7 +14,7 @@
 ** limitations under the License.
 */
 // NOTE VERSION_C
-#define REVISION_C "RC3.7008.3."
+#define REVISION_C "RC4.7009.1."
 // #define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -73,7 +73,8 @@ extern "C" {
 
 #define THUMBNAIL_BUFFER_SIZE (THUMBNAIL_WIDTH * THUMBNAIL_HEIGHT * 3/2)
 #define DEFAULT_PREVIEW_SETTING 5
-#define DEFAULT_FRAMERATE 24
+// basedon other devices framerate values 15
+#define DEFAULT_FRAMERATE 15
 #define PREVIEW_SIZE_COUNT (sizeof(preview_sizes)/sizeof(preview_size_type))
 
 #define NOT_FOUND -1
@@ -212,6 +213,15 @@ static const str_map antibanding[] = {
 };
 static char *antibanding_values;
 
+static const str_map picturesize[] = {
+    { "2048x1536", 0 },
+    { "1600x1200", 1 },
+    { "1024x768", 3 },
+    { "640x480", 6 },
+    { NULL, 0 }
+};
+static char *picturesize_values;
+
 // round to the next power of two
 static inline unsigned clp2(unsigned x)
 {
@@ -235,7 +245,7 @@ static void receive_camframe_callback(struct msm_frame_t *frame);
 static int camerafd;
 static int fd_frame;
 static int32_t mMaxZoom = -1;
-static const int ZOOM_STEP = 6;
+static int ZOOM_STEP;
 static bool zoomSupported = false;
 struct msm_frame_t *frameA;
 bool bFramePresent;
@@ -343,11 +353,12 @@ void QualcommCameraHardware::initDefaultParameters()
     INIT_VALUES_FOR(antibanding);
     INIT_VALUES_FOR(effect);
     INIT_VALUES_FOR(whitebalance);
+    INIT_VALUES_FOR(picturesize);
 
     p.set(CameraParameters::KEY_SUPPORTED_ANTIBANDING, antibanding_values);
     p.set(CameraParameters::KEY_SUPPORTED_EFFECTS, effect_values);
     p.set(CameraParameters::KEY_SUPPORTED_WHITE_BALANCE, whitebalance_values);
-    p.set(CameraParameters::KEY_SUPPORTED_PICTURE_SIZES, "2048x1536,1600x1200,1024x768,176x144");
+    p.set(CameraParameters::KEY_SUPPORTED_PICTURE_SIZES, "2048x1536,1600x1200,1024x768,640x480");
     p.set(CameraParameters::KEY_SUPPORTED_PREVIEW_SIZES, "320x240,240x160,192x144,176x144");
     p.set(CameraParameters::KEY_SUPPORTED_FLASH_MODES, "off");
     p.set(CameraParameters::KEY_SUPPORTED_FOCUS_MODES, "fixed");
@@ -356,8 +367,8 @@ void QualcommCameraHardware::initDefaultParameters()
     // Zoom parameters
     p.set(CameraParameters::KEY_ZOOM_SUPPORTED, "true");
     p.set(CameraParameters::KEY_ZOOM, "0");
-    p.set(CameraParameters::KEY_MAX_ZOOM, 3);
-    p.set(CameraParameters::KEY_ZOOM_RATIOS, "100,150,200,250,300");
+    p.set(CameraParameters::KEY_MAX_ZOOM, 5);
+    p.set(CameraParameters::KEY_ZOOM_RATIOS, "100,150,175,200,250,300");
 
     if (setParameters(p) != NO_ERROR) {
         LOGE("Failed to set default parameters?!");
@@ -1611,10 +1622,6 @@ status_t QualcommCameraHardware::takePicture()
                                              NULL);
     mSnapshotThreadWaitLock.unlock();
 
-    // FIXME Removing this blocks capture, but adding it of course removes picture zoom
-    mParameters.set(CameraParameters::KEY_ZOOM, "0");
-    setZoom();
-
     LOGV("takePicture: X");
 
     return mSnapshotThreadRunning ? NO_ERROR : UNKNOWN_ERROR;
@@ -1634,7 +1641,11 @@ void QualcommCameraHardware::initCameraParameters()
         setAntibanding();
         setEffect();
         setWhiteBalance();
+
+        ZOOM_STEP = getParm("picture-size", picturesize);
         setZoom();
+
+        LOGV("Picture Zoom Step: %d", ZOOM_STEP);
     }
     LOGV("initCameraParameters: X");
 }
