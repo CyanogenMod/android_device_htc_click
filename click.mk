@@ -84,9 +84,7 @@ PRODUCT_COPY_FILES += \
 
 # precompiled files for /system/bin
 PRODUCT_COPY_FILES += \
-    device/htc/click/custom/compcache:system/bin/compcache \
     device/htc/click/custom/calibrate_screen:system/bin/calibrate_screen \
-    device/htc/click/custom/handle_compcache:system/bin/handle_compcache \
     device/htc/click/custom/rzscontrol:system/bin/rzscontrol
 
 # media configuration xml file
@@ -119,3 +117,5 @@ $(call inherit-product-if-exists, vendor/htc/click/click-vendor.mk)
 
 # Added all the kernel modules to be copyed
 $(call inherit-product-if-exists, device/htc/click/KernelModules.mk)
+
+PRODUCT_LOCALES += ldpi,mdpi

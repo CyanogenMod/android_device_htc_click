@@ -25,11 +25,8 @@ adb pull /system/app/HTCCalibrate.apk ../../../vendor/$MANUFACTURER/$DEVICE/prop
 adb pull /system/etc/AudioPara4.csv ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/AudioPara4.csv
 adb pull /system/etc/AudioFilter.csv ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/AudioFilter.csv
 adb pull /system/etc/AudioPreProcess.csv ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/AudioPreProcess.csv
-adb pull /system/lib/libmmcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmmcamera.so
 adb pull /system/lib/libmm-qcamera-tgt.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmm-qcamera-tgt.so
-adb pull /system/lib/libmmjpeg.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmmjpeg.so
 adb pull /system/lib/libaudioeq.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libaudioeq.so
-adb pull /system/lib/libqcamera.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libqcamera.so
 adb pull /system/lib/libmm-adspsvc.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libmm-adspsvc.so
 adb pull /system/lib/libgps.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libgps.so
 adb pull /system/lib/libOmxH264Dec.so ../../../vendor/$MANUFACTURER/$DEVICE/proprietary/libOmxH264Dec.so
@@ -76,11 +73,8 @@ PRODUCT_COPY_FILES += \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/AudioPara4.csv:system/etc/AudioPara4.csv \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/AudioFilter.csv:system/etc/AudioFilter.csv \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/AudioPreProcess.csv:system/etc/AudioPreProcess.csv \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmmcamera.so:system/lib/libmmcamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmm-qcamera-tgt.so:system/lib/libmm-qcamera-tgt.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmmjpeg.so:system/lib/libmmjpeg.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libaudioeq.so:system/lib/libaudioeq.so \\
-    vendor/__MANUFACTURER__/__DEVICE__/proprietary/libqcamera.so:system/lib/libqcamera.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libgps.so:system/lib/libgps.so \\
     vendor/__MANUFACTURER__/__DEVICE__/proprietary/libOmxH264Dec.so:system/lib/libOmxH264Dec.so \\

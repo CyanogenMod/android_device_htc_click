@@ -92,4 +92,7 @@
     <!-- Configure Top Rotary Possition-->
     <integer name="config_rotaryMarginBottomDIP">37</integer>
 
+    <!-- Configure lense unlock time label offset -->
+    <integer name="config_lenseTimeLabelOffsetDIP">30</integer>
+
 </resources>

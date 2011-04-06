@@ -70,3 +70,7 @@ pref_lock_home=1
 
 # Default Tether Dissabled
 ro.tether.denied=true
+
+# Enable Google-specific location features,
+# like NetworkLocationProvider and LocationCollector.
+ro.com.google.locationfeatures=1
