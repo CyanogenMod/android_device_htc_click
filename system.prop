@@ -7,6 +7,7 @@ ro.media.dec.jpeg.memcap=20000000
 
 # RIL specific configuration
 rild.libpath=/system/lib/libhtc_ril.so
+dalvik.vm.dexopt-flags=m=y
 ro.ril.ecc.HTC-ELL=92,93,94
 ro.ril.ecc.HTC-WWE=999
 ro.ril.enable.a52.HTC-ITA=1
@@ -27,7 +28,7 @@ ro.gsm.2nd_data_retry_config = max_retries=3, 2000, 2000, 2000
 # This only affects the case in which there are remembered access points,
 # but none are in range.
 wifi.interface = tiwlan0
-wifi.supplicant_scan_interval=45
+wifi.supplicant_scan_interval=120
 
 # density in DPI of the LCD of this board. This is used to scale the UI
 # appropriately. If this property is not defined, the default value is 120 dpi.
