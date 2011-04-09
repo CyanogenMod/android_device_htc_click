@@ -74,7 +74,7 @@ extern int gralloc_lock(gralloc_module_t const* module,
         int l, int t, int w, int h,
         void** vaddr);
 
-extern int gralloc_unlock(gralloc_module_t const* module, 
+extern int gralloc_unlock(gralloc_module_t const* module,
         buffer_handle_t handle);
 
 extern int gralloc_register_buffer(gralloc_module_t const* module,
@@ -171,7 +171,7 @@ static int gralloc_alloc_framebuffer_locked(alloc_device_t* dev,
         }
         vaddr += bufferSize;
     }
-    
+
     hnd->base = vaddr;
     hnd->offset = vaddr - intptr_t(m->framebuffer->base);
     *pHandle = hnd;
@@ -196,7 +196,7 @@ static int init_pmem_area_locked(private_module_t* m)
     int err = 0;
     int master_fd = open("/dev/pmem", O_RDWR, 0);
     if (master_fd >= 0) {
-        
+
         size_t size;
         pmem_region region;
         if (ioctl(master_fd, PMEM_GET_TOTAL_SIZE, &region) < 0) {
@@ -207,7 +207,7 @@ static int init_pmem_area_locked(private_module_t* m)
         }
         sAllocator.setSize(size);
 
-        void* base = mmap(0, size, 
+        void* base = mmap(0, size,
                 PROT_READ|PROT_WRITE, MAP_SHARED, master_fd, 0);
         if (base == MAP_FAILED) {
             err = -errno;
@@ -254,15 +254,15 @@ static int init_gpu_area_locked(private_module_t* m)
             LOGE("HW3D_GET_REGIONS failed (%s)", strerror(errno));
             err = -errno;
         } else {
-            LOGD("smi: offset=%08lx, len=%08lx, phys=%p", 
-                    regions[HW3D_SMI].map_offset, 
-                    regions[HW3D_SMI].len, 
+            LOGD("smi: offset=%08lx, len=%08lx, phys=%p",
+                    regions[HW3D_SMI].map_offset,
+                    regions[HW3D_SMI].len,
                     regions[HW3D_SMI].phys);
-            LOGD("ebi: offset=%08lx, len=%08lx, phys=%p", 
+            LOGD("ebi: offset=%08lx, len=%08lx, phys=%p",
                     regions[HW3D_EBI].map_offset,
                     regions[HW3D_EBI].len,
                     regions[HW3D_EBI].phys);
-            LOGD("reg: offset=%08lx, len=%08lx, phys=%p", 
+            LOGD("reg: offset=%08lx, len=%08lx, phys=%p",
                     regions[HW3D_REGS].map_offset,
                     regions[HW3D_REGS].len,
                     regions[HW3D_REGS].phys);
@@ -323,13 +323,13 @@ static int gralloc_alloc_buffer(alloc_device_t* dev,
     int offset = 0;
 
     size = roundUpToPageSize(size);
-    
+
     if (usage & GRALLOC_USAGE_HW_TEXTURE) {
         // enable pmem in that case, so our software GL can fallback to
         // the copybit module.
         flags |= private_handle_t::PRIV_FLAGS_USES_PMEM;
     }
-    
+
     if (usage & GRALLOC_USAGE_HW_2D) {
         flags |= private_handle_t::PRIV_FLAGS_USES_PMEM;
     }
@@ -355,11 +355,11 @@ try_ashmem:
                 err = -ENOMEM;
             } else {
                 struct pmem_region sub = { offset, size };
-                
+
                 // now create the "sub-heap"
                 fd = open("/dev/pmem", O_RDWR, 0);
                 err = fd < 0 ? fd : 0;
-                
+
                 // and connect to it
                 if (err == 0)
                     err = ioctl(fd, PMEM_CONNECT, m->pmem_master);
@@ -450,9 +450,9 @@ try_ashmem:
             *pHandle = hnd;
         }
     }
-    
+
     LOGE_IF(err, "gralloc failed err=%s", strerror(-err));
-    
+
     return err;
 }
 
@@ -528,8 +528,8 @@ static int gralloc_free(alloc_device_t* dev,
                 dev->common.module);
         const size_t bufferSize = m->finfo.line_length * m->info.yres;
         int index = (hnd->base - m->framebuffer->base) / bufferSize;
-        m->bufferMask &= ~(1<<index); 
-    } else { 
+        m->bufferMask &= ~(1<<index);
+    } else {
         if (hnd->flags & private_handle_t::PRIV_FLAGS_USES_PMEM) {
             if (hnd->fd >= 0) {
                 struct pmem_region sub = { hnd->offset, hnd->size };

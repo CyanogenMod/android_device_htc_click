@@ -70,7 +70,7 @@ public:
             mFirst = newNode;
         }
     }
-    
+
     void insertTail(NODE* newNode) {
         if (mLast == 0) {
             insertHead(newNode);
@@ -107,7 +107,7 @@ public:
 
 private:
     struct chunk_t {
-        chunk_t(size_t start, size_t size) 
+        chunk_t(size_t start, size_t size)
             : start(start), size(size), free(1), prev(0), next(0) {
         }
         size_t              start;

@@ -50,8 +50,8 @@ ssize_t SimpleBestFitAllocator::setSize(size_t size)
     mList.insertHead(node);
     return size;
 }
-    
-    
+
+
 size_t SimpleBestFitAllocator::size() const
 {
     return mHeapSize;

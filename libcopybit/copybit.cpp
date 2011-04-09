@@ -131,7 +131,7 @@ static int get_format(int format) {
 }
 
 /** convert from copybit image to mdp image structure */
-static void set_image(struct mdp_img *img, const struct copybit_image_t *rhs) 
+static void set_image(struct mdp_img *img, const struct copybit_image_t *rhs)
 {
     private_handle_t* hnd = (private_handle_t*)rhs->handle;
     img->width      = rhs->w;
@@ -201,7 +201,7 @@ static void set_infos(struct copybit_context_t *dev, struct mdp_blit_req *req) {
 }
 
 /** copy the bits */
-static int msm_copybit(struct copybit_context_t *dev, void const *list) 
+static int msm_copybit(struct copybit_context_t *dev, void const *list)
 {
     int err = ioctl(dev->mFD, MSMFB_BLIT,
                     (struct mdp_blit_req_list const*)list);
@@ -245,7 +245,7 @@ static int msm_copybit(struct copybit_context_t *dev, void const *list)
 static int set_parameter_copybit(
         struct copybit_device_t *dev,
         int name,
-        int value) 
+        int value)
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int status = 0;
@@ -308,7 +308,7 @@ static int set_parameter_copybit(
 }
 
 /** Get a static info value */
-static int get(struct copybit_device_t *dev, int name) 
+static int get(struct copybit_device_t *dev, int name)
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int value;
@@ -342,7 +342,7 @@ static int stretch_copybit(
         struct copybit_image_t const *src,
         struct copybit_rect_t const *dst_rect,
         struct copybit_rect_t const *src_rect,
-        struct copybit_region_t const *region) 
+        struct copybit_region_t const *region)
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int status = 0;
@@ -413,7 +413,7 @@ static int blit_copybit(
         struct copybit_device_t *dev,
         struct copybit_image_t const *dst,
         struct copybit_image_t const *src,
-        struct copybit_region_t const *region) 
+        struct copybit_region_t const *region)
 {
     struct copybit_rect_t dr = { 0, 0, dst->w, dst->h };
     struct copybit_rect_t sr = { 0, 0, src->w, src->h };
@@ -423,7 +423,7 @@ static int blit_copybit(
 /*****************************************************************************/
 
 /** Close the copybit device */
-static int close_copybit(struct hw_device_t *dev) 
+static int close_copybit(struct hw_device_t *dev)
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     if (ctx) {

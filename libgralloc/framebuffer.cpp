@@ -75,7 +75,7 @@ static int fb_setUpdateRect(struct framebuffer_device_t* dev,
 {
     if (((w|h) <= 0) || ((l|t)<0))
         return -EINVAL;
-        
+
     fb_context_t* ctx = (fb_context_t*)dev;
     private_module_t* m = reinterpret_cast<private_module_t*>(
             dev->common.module);
@@ -95,32 +95,32 @@ static int fb_post(struct framebuffer_device_t* dev, buffer_handle_t buffer)
     private_handle_t const* hnd = reinterpret_cast<private_handle_t const*>(buffer);
     private_module_t* m = reinterpret_cast<private_module_t*>(
             dev->common.module);
-    
+
     if (hnd->flags & private_handle_t::PRIV_FLAGS_FRAMEBUFFER) {
         const size_t offset = hnd->base - m->framebuffer->base;
         m->info.activate = FB_ACTIVATE_VBL;
         m->info.yoffset = offset / m->finfo.line_length;
         if (ioctl(m->framebuffer->fd, FBIOPUT_VSCREENINFO, &m->info) == -1) {
             LOGE("FBIOPUT_VSCREENINFO failed");
-            m->base.unlock(&m->base, buffer); 
+            m->base.unlock(&m->base, buffer);
             return -errno;
         }
         m->currentBuffer = buffer;
-        
+
     } else {
-        // If we can't do the page_flip, just copy the buffer to the front 
+        // If we can't do the page_flip, just copy the buffer to the front
         // FIXME: use copybit HAL instead of memcpy
-        
+
         void* fb_vaddr;
         void* buffer_vaddr;
-        
-        m->base.lock(&m->base, m->framebuffer, 
-                GRALLOC_USAGE_SW_WRITE_RARELY, 
+
+        m->base.lock(&m->base, m->framebuffer,
+                GRALLOC_USAGE_SW_WRITE_RARELY,
                 0, 0, m->info.xres, m->info.yres,
                 &fb_vaddr);
 
-        m->base.lock(&m->base, buffer, 
-                GRALLOC_USAGE_SW_READ_RARELY, 
+        m->base.lock(&m->base, buffer,
+                GRALLOC_USAGE_SW_READ_RARELY,
                 0, 0, m->info.xres, m->info.yres,
                 &buffer_vaddr);
 
@@ -130,11 +130,11 @@ static int fb_post(struct framebuffer_device_t* dev, buffer_handle_t buffer)
                 m->info.xres, m->info.yres,
                 m->info.xoffset, m->info.yoffset,
                 m->info.width, m->info.height);
-        
-        m->base.unlock(&m->base, buffer); 
-        m->base.unlock(&m->base, m->framebuffer); 
+
+        m->base.unlock(&m->base, buffer);
+        m->base.unlock(&m->base, m->framebuffer);
     }
-    
+
     return 0;
 }
 
@@ -146,7 +146,7 @@ int mapFrameBufferLocked(struct private_module_t* module)
     if (module->framebuffer) {
         return 0;
     }
-        
+
     char const * const device_template[] = {
             "/dev/graphics/fb%u",
             "/dev/fb%u",
@@ -403,7 +403,7 @@ msm_copy_buffer(buffer_handle_t handle, int fd, int width, int height,
     blit.req.dst.width = width;
     blit.req.dst.height = height;
     blit.req.dst.offset = 0;
-    blit.req.dst.memory_id = fd; 
+    blit.req.dst.memory_id = fd;
     blit.req.dst.format = MDP_RGB_565;
 
     blit.req.src_rect.x = blit.req.dst_rect.x = x;
