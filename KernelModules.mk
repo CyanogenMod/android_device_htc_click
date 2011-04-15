@@ -10,7 +10,7 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/fs/ext4/ext4.ko:system/lib/modules/2.6.29.6-Kalim/kernel/fs/ext4/ext4.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/hid/hid-dummy.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/hid/hid-dummy.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/net/wireless/tiwlan1251/wlan.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/net/wireless/tiwlan1251/wlan.ko \
-    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/staging/ramzswap/ramzswap.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/staging/ramzswap/ramzswap.ko \
+    device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/drivers/staging/zram/zram.ko:system/lib/modules/2.6.29.6-Kalim/kernel/drivers/staging/zram/zram.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/kernel/net/netfilter/xt_TCPMSS.ko:system/lib/modules/2.6.29.6-Kalim/kernel/net/netfilter/xt_TCPMSS.ko \
     device/htc/click/custom/modules/2.6.29.6-Kalim/modules.ccwmap:system/lib/modules/2.6.29.6-Kalim/modules.ccwmap \
     device/htc/click/custom/modules/2.6.29.6-Kalim/modules.seriomap:system/lib/modules/2.6.29.6-Kalim/modules.seriomap \

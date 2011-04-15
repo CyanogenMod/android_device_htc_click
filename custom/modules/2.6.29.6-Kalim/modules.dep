@@ -5,5 +5,5 @@ kernel/fs/cifs/cifs.ko:
 kernel/fs/aufs/aufs.ko:
 kernel/drivers/net/wireless/tiwlan1251/wlan.ko:
 kernel/drivers/hid/hid-dummy.ko:
-kernel/drivers/staging/ramzswap/ramzswap.ko:
+kernel/drivers/staging/zram/zram.ko:
 kernel/net/netfilter/xt_TCPMSS.ko:

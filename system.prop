@@ -16,7 +16,7 @@ ro.ril.enable.a52=0
 ro.ril.enable.a53=1
 ro.ril.enable.dtm = 1
 ro.ril.gprsclass = 12
-ro.ril.hsdpa.category=8
+ro.ril.hsdpa.category=10
 ro.ril.hsupa.category=5
 ro.ril.hsxpa=2
 ro.ril.def.agps.mode = 2
@@ -46,6 +46,9 @@ ro.telephony.default_network=0
 ro.com.google.locationfeatures=1
 
 ro.opengles.version=65536
+
+# No Autofocus device
+ro.workaround.noautofocus=1
 
 # Disable fs check on boot by default
 sys.checkfs.fat=false
