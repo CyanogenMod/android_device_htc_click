@@ -34,6 +34,7 @@ PRODUCT_PACKAGES += \
     libcamera \
     librpc \
     dhcpcd.conf \
+    rzscontrol \
     dexpreopt
 
 DISABLE_DEXPREOPT := false
