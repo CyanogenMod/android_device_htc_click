@@ -16,7 +16,7 @@ ro.ril.enable.a52=0
 ro.ril.enable.a53=1
 ro.ril.enable.dtm = 1
 ro.ril.gprsclass = 12
-ro.ril.hsdpa.category=8
+ro.ril.hsdpa.category=10
 ro.ril.hsupa.category=5
 ro.ril.hsxpa=2
 ro.ril.def.agps.mode = 2
@@ -39,6 +39,9 @@ view.fading_edge_length=8
 view.touch_slop=15
 view.minimum_fling_velocity=25
 view.scroll_friction=0.008
+
+# No Autofocus device
+ro.workaround.noautofocus=1
 
 # Default network type
 # 0 => WCDMA Preferred.
