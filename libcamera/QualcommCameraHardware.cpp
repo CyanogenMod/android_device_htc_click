@@ -13,8 +13,7 @@
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
 */
-// NOTE VERSION_C
-#define REVISION_C "RC4.7009.1."
+#define REVISION_C "CM.7.0.1."
 // #define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -73,55 +72,15 @@ extern "C" {
 
 #define THUMBNAIL_BUFFER_SIZE (THUMBNAIL_WIDTH * THUMBNAIL_HEIGHT * 3/2)
 #define DEFAULT_PREVIEW_SETTING 5
-// basedon other devices framerate values 15
 #define DEFAULT_FRAMERATE 15
 #define PREVIEW_SIZE_COUNT (sizeof(preview_sizes)/sizeof(preview_size_type))
 
 #define NOT_FOUND -1
 #define LOG_PREVIEW false
 
-#if DLOPEN_LIBMMCAMERA
 #include <dlfcn.h>
 
 void* (*LINK_cam_conf)(void *data);
-void* (*LINK_cam_frame)(void *data);
-bool  (*LINK_jpeg_encoder_init)();
-void  (*LINK_jpeg_encoder_join)();
-unsigned char (*LINK_jpeg_encoder_encode)(const char* file_name, const cam_ctrl_dimension_t *dimen,
-                                  const unsigned char* thumbnailbuf, int thumbnailfd,
-                                  const unsigned char* snapshotbuf, int snapshotfd,
-                                  common_crop_t *cropInfo);
-int  (*LINK_camframe_terminate)();
-void (*LINK_cam_set_frame_callback)();
-bool (*LINK_cam_release_frame)();
-int8_t (*LINK_jpeg_encoder_setMainImageQuality)(uint32_t quality);
-int8_t (*LINK_jpeg_encoder_setThumbnailQuality)(uint32_t quality);
-int8_t (*LINK_jpeg_encoder_setRotation)(uint32_t rotation);
-int8_t (*LINK_jpeg_encoder_setLocation)(const camera_position_type *location);
-//
-// callbacks
-void  (**LINK_mmcamera_camframe_callback)(struct msm_frame_t *frame);
-void  (**LINK_mmcamera_jpegfragment_callback)(uint8_t *buff_ptr,
-                                              uint32_t buff_size);
-void  (**LINK_mmcamera_jpeg_callback)(jpeg_event_t status);
-#else
-#define LINK_cam_conf cam_conf
-#define LINK_cam_frame cam_frame
-#define LINK_jpeg_encoder_init jpeg_encoder_init
-#define LINK_jpeg_encoder_join jpeg_encoder_join
-#define LINK_jpeg_encoder_encode jpeg_encoder_encode
-#define LINK_camframe_terminate camframe_terminate
-#define LINK_cam_set_frame_callback cam_set_frame_callback
-#define LINK_cam_release_frame cam_release_frame
-#define LINK_jpeg_encoder_setMainImageQuality jpeg_encoder_setMainImageQuality
-#define LINK_jpeg_encoder_setThumbnailQuality jpeg_encoder_setThumbnailQuality
-#define LINK_jpeg_encoder_setRotation jpeg_encoder_setRotation
-#define LINK_jpeg_encoder_setLocation jpeg_encoder_setLocation
-extern void (*mmcamera_camframe_callback)(struct msm_frame_t *frame);
-extern void (*mmcamera_jpegfragment_callback)(uint8_t *buff_ptr,
-                                      uint32_t buff_size);
-extern void (*mmcamera_jpeg_callback)(jpeg_event_t status);
-#endif
 
 } // extern "C"
 
@@ -412,13 +371,12 @@ bool QualcommCameraHardware::msgTypeEnabled(int32_t msgType)
 }
 
 
+
 #define ROUND_TO_PAGE(x)  (((x)+0xfff)&~0xfff)
 
 void QualcommCameraHardware::startCamera()
 {
     LOGV("startCamera E");
-
-#if DLOPEN_LIBMMCAMERA
 
     libmmcamera_target = ::dlopen("libmm-qcamera-tgt.so", RTLD_NOW);
     LOGV("loading libmm-qcamera-tgt at %p", libmmcamera_target);
@@ -427,42 +385,8 @@ void QualcommCameraHardware::startCamera()
         return;
     }
 
-#if 0 // useless now
-    *(void **)&LINK_cam_frame =
-        ::dlsym(libmmcamera, "cam_frame");
-    *(void **)&LINK_camframe_terminate =
-        ::dlsym(libmmcamera, "camframe_terminate");
-    *(void **)&LINK_jpeg_encoder_encode =
-        ::dlsym(libmmcamera, "jpeg_encoder_encode");
-    *(void **)&LINK_jpeg_encoder_join =
-        ::dlsym(libmmcamera, "jpeg_encoder_join");
-    *(void **)&LINK_mmcamera_camframe_callback =
-        ::dlsym(libmmcamera, "mmframe_cb");
-    *LINK_mmcamera_camframe_callback = receive_camframe_callback;
-    *(void **)&LINK_jpeg_encoder_init =
-        ::dlsym(libmmcamera, "jpeg_encoder_init");
-    *(void **)&LINK_mmcamera_jpeg_callback =
-        ::dlsym(libmmcamera, "mm_jpeg_callback");
-    *LINK_mmcamera_jpeg_callback = receive_jpeg_callback;
-    *(void **)&LINK_mmcamera_jpegfragment_callback =
-        ::dlsym(libmmcamera, "mm_jpegfragment_callback");
-    *LINK_mmcamera_jpegfragment_callback = receive_jpeg_fragment_callback;
-    *(void **)&LINK_cam_set_frame_callback =
-        ::dlsym(libmmcamera, "cam_set_frame_callback");
-    *(void**)&LINK_jpeg_encoder_setMainImageQuality =
-        ::dlsym(libmmcamera, "jpeg_encoder_setMainImageQuality");
-    *(void **)&LINK_cam_release_frame =
-        ::dlsym(libmmcamera, "cam_release_frame");
-#endif
-
     *(void **)&LINK_cam_conf =
         ::dlsym(libmmcamera_target, "cam_conf");
-
-#else
-    mmcamera_camframe_callback = receive_camframe_callback;
-    mmcamera_jpegfragment_callback = receive_jpeg_fragment_callback;
-    mmcamera_jpeg_callback = receive_jpeg_callback;
-#endif // DLOPEN_LIBMMCAMERA
 
     /* The control thread is in libcamera itself. */
     LOGV("pthread_join on control thread");
@@ -799,21 +723,6 @@ static void handler(int sig, siginfo_t *siginfo, void *context)
     pthread_exit(NULL);
 }
 
-// Set transfer preview meanwhile new preview is captured
-static void *prev_frame_click(void *user)
-{
-    while (true) {
-        usleep(1);
-        if(bFramePresent) {
-            if(LOG_PREVIEW)
-                LOGV("PREVIEW ARRIVED !!!!!!");
-            receive_camframe_callback(frameA);
-            bFramePresent=false;
-        }
-    }
-    return NULL;
-}
-
 // customized camframe_callback function based on reassembled libmmcamera.so
 // Routine coded by fn.fyodor and corrected by KalimochoAz
 static void *cam_frame_click(void *data)
@@ -835,7 +744,7 @@ static void *cam_frame_click(void *data)
     act.sa_sigaction = &handler;
     act.sa_flags = SA_SIGINFO;
     if (sigaction(SIGUSR1, &act, NULL) != 0) {
-        LOGE("sigaction in cam_frame failed");
+        LOGE("sigaction in cam_frame_click failed");
         pthread_exit(NULL);
     }
 
@@ -860,7 +769,6 @@ static void *cam_frame_click(void *data)
                     LOGE("MSM_CAM_IOCTL_RELEASE_FRAME_BUFFER error %s", strerror(errno));
                 else
                     receive_camframe_callback(frameA);
-                    //bFramePresent=true;
             } else
                 LOGE("MSM_CAM_IOCTL_GETFRAME error %s", strerror(errno));
             pthread_mutex_unlock(&mutex_camframe);
@@ -874,7 +782,6 @@ static void *cam_frame_click(void *data)
 }
 
 // ************************************************************************************************************************************
-//static cam_frame_start_parms frame_parms;
 static int recordingState = 0;
 
 static rat_t latitude[3];
@@ -1190,8 +1097,6 @@ void QualcommCameraHardware::deinitPreview(void)
     // the frame-thread's callback.  This we have to make the frame thread
     // detached, and use a separate mechanism to wait for it to complete.
 
-    // camframe_terminate() never been used
-
     if (mFrameThreadRunning) {
         // Send a exit signal to stop the frame thread
         if (!pthread_kill(mFrameThread, SIGUSR1)) {
@@ -1322,14 +1227,10 @@ void QualcommCameraHardware::release()
     LOGV("release E");
     Mutex::Autolock l(&mLock);
 
-#if DLOPEN_LIBMMCAMERA
     if (libmmcamera_target == NULL) {
         LOGE("ERROR: multiple release!");
         return;
     }
-#else
-#warning "Cannot detect multiple release when not dlopen()ing libmmcamera!"
-#endif
 
     int rc;
     struct msm_ctrl_cmd_t ctrlCmd;
@@ -1376,13 +1277,11 @@ void QualcommCameraHardware::release()
     close(fd_frame);
     fd_frame = -1;
 
-#if DLOPEN_LIBMMCAMERA
     if (libmmcamera_target) {
         ::dlclose(libmmcamera_target);
         LOGV("dlclose(libmmcamera_target)");
         libmmcamera_target = NULL;
     }
-#endif
 
     Mutex::Autolock lock(&singleton_lock);
     singleton_releasing = true;
