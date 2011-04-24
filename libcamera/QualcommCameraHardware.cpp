@@ -1932,7 +1932,7 @@ void QualcommCameraHardware::setZoom()
                 LOGE("Failed to get zoomratios...");
                 delete zoomRatios;
             } else {
-                LOGE("zoom ratios failed to acquire memory");
+                LOGV("zoom ratios set");
             }
         }
     } else {
