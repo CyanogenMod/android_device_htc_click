@@ -109,6 +109,9 @@
         <ImageEncoding quality="90" />
         <ImageEncoding quality="80" />
         <ImageEncoding quality="70" />
+        <ImageDecoding memCap="20000000" />
+
+        <Camera previewFrameRate="0" />
     </CamcorderProfiles>
 
     <EncoderOutputFileFormat name="3gp" />
