@@ -47,6 +47,14 @@ on boot
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/sampling_rate 40000
     write /sys/devices/system/cpu/cpu0/cpufreq/ondemand/up_threshold 85
 
+    # Set idle_sleep_mode permissions to radio
+    chown radio radio /sys/module/pm/parameters/idle_sleep_mode
+
+    # for disabling IPv6 over mobile network.
+    write /proc/sys/net/ipv6/conf/rmnet0/disable_ipv6 1
+    write /proc/sys/net/ipv6/conf/rmnet1/disable_ipv6 1
+    write /proc/sys/net/ipv6/conf/rmnet2/disable_ipv6 1
+
     # performance tweaks for flash
     write /sys/block/mtdblock3/bdi/read_ahead_kb 4
     write /sys/block/mtdblock4/bdi/read_ahead_kb 4
@@ -58,6 +66,9 @@ on boot
     # enable low memory killer to check file pages
     write /sys/module/lowmemorykiller/parameters/minfile 0,0,0,5120,5632,6144
     write /sys/module/lowmemorykiller/parameters/check_filepages 1
+
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 90
+    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
 
     # CPU_Scaling Governor make permissions
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
