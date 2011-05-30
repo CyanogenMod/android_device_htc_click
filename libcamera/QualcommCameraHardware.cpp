@@ -13,7 +13,7 @@
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
 */
-#define REVISION_C "CM.7.0.1."
+#define REVISION_C "CM.7.1.0."
 // #define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -973,7 +973,6 @@ void QualcommCameraHardware::runJpegEncodeThread(void *data)
     camera_position_type *npt = &pt;
     if(!encode_location) {
         npt = NULL;
-
     }
 
     int jpeg_quality = mParameters.getInt("jpeg-quality");

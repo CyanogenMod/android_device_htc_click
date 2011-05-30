@@ -22,7 +22,6 @@ PRODUCT_COPY_FILES += \
 
 # Libs to be added to this ROM
 PRODUCT_PACKAGES += \
-    librs_jni \
     sensors.bahamas \
     lights.bahamas \
     copybit.bahamas \
@@ -35,6 +34,7 @@ PRODUCT_PACKAGES += \
     librpc \
     dhcpcd.conf \
     rzscontrol \
+    com.android.future.usb.accessory \
     dexpreopt
 
 DISABLE_DEXPREOPT := false
@@ -70,7 +70,9 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+    frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 
 # keychars and keylayout files
 PRODUCT_COPY_FILES += \
