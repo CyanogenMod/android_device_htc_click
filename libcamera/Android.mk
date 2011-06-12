@@ -15,7 +15,7 @@ LOCAL_MODULE_TAGS:=optional
 
 LOCAL_SRC_FILES:= QualcommCameraHardware.cpp exifwriter.c jdatadst.cpp jpegConvert.cpp
 
-LOCAL_CFLAGS:= -DDLOPEN_LIBMMCAMERA=$(DLOPEN_LIBMMCAMERA)
+LOCAL_CFLAGS:= -DDLOPEN_LIBMMCAMERA=$(DLOPEN_LIBMMCAMERA) -O2
 
 LOCAL_C_INCLUDES+= \
         vendor/qcom/proprietary/mm-camera/common \
