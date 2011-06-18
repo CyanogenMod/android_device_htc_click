@@ -72,7 +72,10 @@
     </string-array>
 
     <!-- If this is true, the screen will fade off. -->
-    <bool name="config_animateScreenLights">true</bool>
+    <bool name="config_animateScreenLights">false</bool>
+
+    <!-- Enable the screen-off animation -->
+    <bool name="config_enableScreenOffAnimation">false</bool>
 
     <!-- XXXXXX END OF RESOURCES USING WRONG NAMING CONVENTION -->
 
