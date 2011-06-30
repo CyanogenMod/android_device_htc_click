@@ -21,7 +21,7 @@ on boot
     chown dhcp dhcp /data/misc/dhcp
 
     # write screen calibration
-    write /sys/class/input/input1/calibration_points 794,867,213,863,502,493,798,120,198,139
+    write /sys/class/input/input1/calibration_points 837,864,166,859,507,503,844,142,167,142
 
     # bluetooth power up/down interface
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
