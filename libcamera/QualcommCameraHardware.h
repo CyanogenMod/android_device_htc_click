@@ -33,7 +33,7 @@ extern "C" {
 
 #define CAM_CTRL_SUCCESS 1
 
-#define REVISION_H "2"
+#define REVISION_H "3"
 
 #define CAMERA_SET_PARM_DIMENSION 1
 #define CAMERA_SET_PARM_ZOOM 2
@@ -142,6 +142,11 @@ typedef unsigned int isp3a_af_mode_t;
 struct str_map {
     const char *const desc;
     int val;
+};
+
+struct dstr_map {
+    const char *const desc;
+    const char *const val;
 };
 
 // ********************************************************************************************************
@@ -261,6 +266,7 @@ private:
     bool native_set_parm(cam_ctrl_type type, uint16_t length, void *value);
     bool native_set_dimension(cam_ctrl_dimension_t *value);
     int getParm(const char *parm_str, const str_map *parm_map);
+    const char* getParm(const char *parm_str, const dstr_map *parm_map);
     void setGpsParameters();
     const char *KEY_GPS_LATITUDE;
 

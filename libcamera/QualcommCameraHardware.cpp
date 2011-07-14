@@ -13,7 +13,8 @@
 ** See the License for the specific language governing permissions and
 ** limitations under the License.
 */
-#define REVISION_C "CM.7.1.0."
+// NOTE: Version number of the lib
+#define REVISION_C "CM.7.1.0.14."
 // #define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -120,12 +121,26 @@ static int attr_lookup(const struct str_map *const arr, const char *name)
     return NOT_FOUND;
 }
 
+static const char* attr_lookup(const struct dstr_map *const arr, const char *name)
+{
+    if (name) {
+        const struct dstr_map *trav = arr;
+        while (trav->desc) {
+            if (!strcmp(trav->desc, name))
+                return trav->val;
+            trav++;
+        }
+    }
+    return '\0';
+}
+
 #define INIT_VALUES_FOR(parm) do {                               \
     if (!parm##_values) {                                        \
         parm##_values = (char *)malloc(sizeof(parm)/             \
                                        sizeof(parm[0])*30);      \
+        LOGD("Kalim Param: %s",parm##_values);                   \
         char *ptr = parm##_values;                               \
-        const str_map *trav;                                     \
+        const TYPESTRMAP *trav;                                  \
         for (trav = parm; trav->desc; trav++) {                  \
             int len = strlen(trav->desc);                        \
             strcpy(ptr, trav->desc);                             \
@@ -181,6 +196,21 @@ static const str_map picturesize[] = {
 };
 static char *picturesize_values;
 
+static const dstr_map reducesize[] = {
+            { "2048x1536", "1600x1200" },
+            { "1600x1200", "1280x960"  },
+            { "1280x960" , "480x320"   },
+            { "640x480"  , "320x240"   },
+            { "480x320"  , "640x480"   },
+            { "320x240"  , "352x288"   },
+            { "352x288"  , "176x144"   },
+            { "176x144"  , NULL        },
+            { NULL, 0 }
+};
+
+static char *reducesize_values;
+
+
 // round to the next power of two
 static inline unsigned clp2(unsigned x)
 {
@@ -204,6 +234,7 @@ static void receive_camframe_callback(struct msm_frame_t *frame);
 static int camerafd;
 static int fd_frame;
 static int32_t mMaxZoom = -1;
+static int32_t prevzoom = 0;
 static int ZOOM_STEP;
 static bool zoomSupported = false;
 struct msm_frame_t *frameA;
@@ -309,10 +340,14 @@ void QualcommCameraHardware::initDefaultParameters()
 
     // This will happen only once in the lifetime of the mediaserver process.
     // We do not free the _values arrays when we destroy the camera object.
+    #define TYPESTRMAP str_map
     INIT_VALUES_FOR(antibanding);
     INIT_VALUES_FOR(effect);
     INIT_VALUES_FOR(whitebalance);
     INIT_VALUES_FOR(picturesize);
+    #undef TYPESTRMAP
+    #define TYPESTRMAP dstr_map
+    INIT_VALUES_FOR(reducesize);
 
     p.set(CameraParameters::KEY_SUPPORTED_ANTIBANDING, antibanding_values);
     p.set(CameraParameters::KEY_SUPPORTED_EFFECTS, effect_values);
@@ -326,8 +361,8 @@ void QualcommCameraHardware::initDefaultParameters()
     // Zoom parameters
     p.set(CameraParameters::KEY_ZOOM_SUPPORTED, "true");
     p.set(CameraParameters::KEY_ZOOM, "0");
-    p.set(CameraParameters::KEY_MAX_ZOOM, 5);
-    p.set(CameraParameters::KEY_ZOOM_RATIOS, "100,150,175,200,250,300");
+    p.set(CameraParameters::KEY_MAX_ZOOM,6);
+    p.set(CameraParameters::KEY_ZOOM_RATIOS, "100,150,175,200,250,275,300");
 
     if (setParameters(p) != NO_ERROR) {
         LOGE("Failed to set default parameters?!");
@@ -756,10 +791,7 @@ static void *cam_frame_click(void *data)
         timeout.tv_usec = 0;
 
         ret = select(fd_frame+1, &readfds, NULL, NULL, &timeout);
-        if (ret == -1) {
-            LOGE("calling select failed!");
-            break;
-        } else if (FD_ISSET(fd_frame, &readfds)) {
+        if (FD_ISSET(fd_frame, &readfds)) {
             pthread_mutex_lock(&mutex_camframe);
             // ready to get frame
             ret = ioctl(fd_frame, MSM_CAM_IOCTL_GETFRAME, frameA);
@@ -772,6 +804,9 @@ static void *cam_frame_click(void *data)
             } else
                 LOGE("MSM_CAM_IOCTL_GETFRAME error %s", strerror(errno));
             pthread_mutex_unlock(&mutex_camframe);
+        } else if (ret == -1) {
+            LOGE("calling select() failed!");
+            break;
         } else {
             LOGV("frame is not ready! select returns %d", ret);
             usleep(100000);
@@ -1014,6 +1049,8 @@ bool QualcommCameraHardware::initPreview()
         LOGV("initPreview: old snapshot thread completed.");
     }
     mSnapshotThreadWaitLock.unlock();
+
+    setZoom();
 
     mPreviewFrameSize = mPreviewWidth * mPreviewHeight * 3/2;
     mPreviewHeap = new PreviewPmemPool(mCameraControlFd,
@@ -1282,8 +1319,12 @@ void QualcommCameraHardware::release()
         libmmcamera_target = NULL;
     }
 
+    // FIXME: solve end of lib sometimes can fail
     Mutex::Autolock lock(&singleton_lock);
     singleton_releasing = true;
+    singleton.clear();
+    singleton_releasing = false;
+    singleton_wait.signal();
 
     LOGV("release X");
 }
@@ -1607,6 +1648,12 @@ status_t QualcommCameraHardware::setParameters(
         else mDimension.ui_thumbnail_height = val;
     }
 
+    //User changed pic size, recheck zoom
+    if (params.get("picture-size") != NULL && mParameters.get("picture-size") != NULL && strcmp(params.get("picture-size"), mParameters.get("picture-size")) != 0){
+        prevzoom = 99;
+        LOGV("setParameters: user/system modified pic size! rechecking zoom");
+    }
+
     // setParameters
     mParameters = params;
 
@@ -1699,9 +1746,7 @@ void QualcommCameraHardware::receivePreviewFrame(struct msm_frame_t *frame)
     }
 
     // Find the offset within the heap of the current buffer.
-    ssize_t offset =
-        (ssize_t)frame->buffer - (ssize_t)mPreviewHeap->mHeap->base();
-    offset /= mPreviewFrameSize;
+    ssize_t offset = 0;
 
     mInPreviewCallback = true;
     if (mMsgEnabled & CAMERA_MSG_PREVIEW_FRAME)
@@ -1882,6 +1927,18 @@ int QualcommCameraHardware::getParm(
     return attr_lookup(parm_map, str);
 }
 
+const char* QualcommCameraHardware::getParm(
+    const char *parm_str, const struct dstr_map *const parm_map)
+{
+    // Check if the parameter exists.
+    const char *str = mParameters.get(parm_str);
+    if (str == NULL) return '\0';
+
+    // Look up the parameter value.
+    return attr_lookup(parm_map, str);
+}
+
+
 void QualcommCameraHardware::setEffect()
 {
     int32_t value = getParm(CameraParameters::KEY_EFFECT, effect);
@@ -1917,22 +1974,48 @@ void QualcommCameraHardware::setAntibanding()
 
 void QualcommCameraHardware::setZoom()
 {
-    int32_t level = mParameters.getInt(CameraParameters::KEY_ZOOM);
+    int32_t level;
+    int32_t multiplier;
+    int32_t zoomsel;
+    bool iscamcorder = false;
 
-
+    // NOTE: ZOOM Routine
+    LOGV(" *************************** ZOOM ROUTINE STARTED ****************************************************************************");
     if(native_get_maxzoom(mCameraControlFd,
             (void *)&mMaxZoom) == true){
-        LOGD("Maximum zoom value is %d", mMaxZoom);
+        LOGV("Maximum zoom value is %d", mMaxZoom);
+        //maxZoom/5 in the ideal world, but it's stuck on 90
+        multiplier = getParm("picture-size", picturesize);
+
+        LOGV("Multiplier: %d",multiplier);
+
+        //Camcorder mode uses preview size
+        LOGD("preview-frame-rate: %s",mParameters.get("preview-frame-rate"));
+        if (strcmp(mParameters.get("preview-frame-rate"),"30") != 0){
+            multiplier = getParm("preview-size", picturesize);
+            iscamcorder = true;
+            LOGV("Multiplier: %d",multiplier);
+        }
+        LOGV("Multiplier: %d, PrevZoom: %d",multiplier,prevzoom);
+
         zoomSupported = true;
         if(mMaxZoom > 0){
-            //if max zoom is available find the zoom ratios
-            int16_t * zoomRatios = new int16_t[mMaxZoom+1];
-            if(zoomRatios == NULL){
-                LOGE("Failed to get zoomratios...");
-                delete zoomRatios;
-            } else {
-                LOGV("zoom ratios set");
+            //To get more 'natural' zoom we reduce picture resolution
+            //if the sensor can't cope with it
+            zoomsel = mParameters.getInt(CameraParameters::KEY_ZOOM);
+
+            if(!iscamcorder && prevzoom > zoomsel){
+                mParameters.set("picture-size", "2048x1536");
+                LOGV("User panning, increasing picture quality to max");
             }
+            prevzoom = zoomsel;
+            while(!iscamcorder && zoomsel * 5 > 5 * multiplier && getParm("picture-size", reducesize) != NULL) {
+                mParameters.set("picture-size", getParm("picture-size", reducesize));
+                multiplier = getParm("picture-size", picturesize);
+                LOGV("Reducing picture quality; new multiplier: %d", multiplier);
+            }
+            level = zoomsel * (iscamcorder ? (multiplier*5)/6 : 5);
+            LOGV("Level: %d, Multiplier: %d ZoomSel: %d",level,multiplier,zoomsel);
         }
     } else {
         zoomSupported = false;
@@ -1941,24 +2024,29 @@ void QualcommCameraHardware::setZoom()
         mMaxZoom = 0;
     }
 
-    if (level > mMaxZoom) {
+    if (level >= mMaxZoom) {
         level = mMaxZoom;
+        LOGV("Level=Maxzoom: %d",level);
     }
 
     LOGV("Set Zoom level: %d current: %d maximum: %d", level, mCurZoom, mMaxZoom);
 
     if (level == mCurZoom) {
+        LOGV("Level=Curzoom: %d",level);
+        LOGV(" *************************** ZOOM ROUTINE ENDED ******************************************************************************");
         return;
     }
 
    if (level != -1) {
-            level*=ZOOM_STEP;
             LOGV("Final Zoom Level: %d", level);
             if (level >= 0 && level <= mMaxZoom) {
                 native_set_parm(CAMERA_SET_PARM_ZOOM, sizeof(level), (void *)&level);
+                usleep(35000);
                 mCurZoom = level;
             }
     }
+    LOGV(" *************************** ZOOM ROUTINE ENDED ******************************************************************************");
+
 }
 
 QualcommCameraHardware::MemPool::MemPool(int buffer_size, int num_buffers,
