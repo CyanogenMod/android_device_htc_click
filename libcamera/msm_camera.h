@@ -24,70 +24,70 @@
 #define MSM_CAM_IOCTL_MAGIC 'm'
 
 #define MSM_CAM_IOCTL_GET_SENSOR_INFO \
-        _IOR(MSM_CAM_IOCTL_MAGIC, 1, struct msm_camsensor_info_t *)
+        _IOR(MSM_CAM_IOCTL_MAGIC, 1, struct msm_camsensor_info *)
 
 #define MSM_CAM_IOCTL_REGISTER_PMEM \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 2, struct msm_pmem_info_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 2, struct msm_pmem_info *)
 
 #define MSM_CAM_IOCTL_UNREGISTER_PMEM \
         _IOW(MSM_CAM_IOCTL_MAGIC, 3, unsigned)
 
 #define MSM_CAM_IOCTL_CTRL_COMMAND \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 4, struct msm_ctrl_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 4, struct msm_ctrl_cmd *)
 
 #define MSM_CAM_IOCTL_CONFIG_VFE  \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 5, struct msm_camera_vfe_cfg_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 5, struct msm_camera_vfe_cfg_cmd *)
 
 #define MSM_CAM_IOCTL_GET_STATS \
-        _IOR(MSM_CAM_IOCTL_MAGIC, 6, struct msm_camera_stats_event_ctrl_t *)
+        _IOR(MSM_CAM_IOCTL_MAGIC, 6, struct msm_camera_stats_event_ctrl *)
 
 #define MSM_CAM_IOCTL_GETFRAME \
-        _IOR(MSM_CAM_IOCTL_MAGIC, 7, struct msm_camera_get_frame_t *)
+        _IOR(MSM_CAM_IOCTL_MAGIC, 7, struct msm_camera_get_frame *)
 
 #define MSM_CAM_IOCTL_ENABLE_VFE \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 8, struct camera_enable_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 8, struct camera_enable_cmd *)
 
 #define MSM_CAM_IOCTL_CTRL_CMD_DONE \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 9, struct camera_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 9, struct camera_cmd *)
 
 #define MSM_CAM_IOCTL_CONFIG_CMD \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 10, struct camera_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 10, struct camera_cmd *)
 
 #define MSM_CAM_IOCTL_DISABLE_VFE \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 11, struct camera_enable_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 11, struct camera_enable_cmd *)
 
 #define MSM_CAM_IOCTL_PAD_REG_RESET2 \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 12, struct camera_enable_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 12, struct camera_enable_cmd *)
 
 #define MSM_CAM_IOCTL_VFE_APPS_RESET \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 13, struct camera_enable_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 13, struct camera_enable_cmd *)
 
 #define MSM_CAM_IOCTL_RELEASE_FRAMEE_BUFFER \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 14, struct camera_enable_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 14, struct camera_enable_cmd *)
 
 #define MSM_CAM_IOCTL_RELEASE_STATS_BUFFER \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 15, struct msm_stats_buf_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 15, struct msm_stats_buf *)
 
 #define MSM_CAM_IOCTL_AXI_CONFIG \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 16, struct msm_camera_vfe_cfg_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 16, struct msm_camera_vfe_cfg_cmd *)
 
 #define MSM_CAM_IOCTL_GET_PICTURE \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 17, struct msm_camera_ctrl_cmd_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 17, struct msm_camera_ctrl_cmd *)
 
 #define MSM_CAM_IOCTL_SET_CROP \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 18, struct crop_info_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 18, struct crop_info *)
 
 #define MSM_CAM_IOCTL_PICT_PP \
         _IOW(MSM_CAM_IOCTL_MAGIC, 19, uint8_t *)
 
 #define MSM_CAM_IOCTL_PICT_PP_DONE \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 20, struct msm_snapshot_pp_status_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 20, struct msm_snapshot_pp_status *)
 
 #define MSM_CAM_IOCTL_SENSOR_IO_CFG \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 21, struct sensor_cfg_data_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 21, struct sensor_cfg_data *)
 
 #define MSM_CAM_IOCTL_FLASH_LED_CFG \
-        _IOW(MSM_CAM_IOCTL_MAGIC, 22, enum msm_camera_led_state_t *)
+        _IOW(MSM_CAM_IOCTL_MAGIC, 22, enum msm_camera_led_state *)
 
 #define MAX_SENSOR_NUM  3
 #define MAX_SENSOR_NAME 32
@@ -95,7 +95,7 @@
 /*****************************************************
  *  enum
  *****************************************************/
-enum msm_camera_update_t {
+enum msm_camera_update {
         MSM_CAM_CTRL_CMD_DONE,
         MSM_CAM_SENSOR_VFE_CMD,
 };
@@ -112,7 +112,7 @@ enum msm_camera_update_t {
  * 1. control command: control command(from control thread),
  *                     control status (from config thread);
  */
-struct msm_ctrl_cmd_t {
+struct msm_ctrl_cmd {
         int timeout_ms;
         uint16_t type;
         uint16_t length;
@@ -120,14 +120,14 @@ struct msm_ctrl_cmd_t {
         uint16_t status;
 };
 
-struct msm_vfe_evt_msg_t {
+struct msm_vfe_evt_msg {
         unsigned short type;    /* 1 == event (RPC), 0 == message (adsp) */
         unsigned short msg_id;
         unsigned int len;       /* size in, number of bytes out */
         unsigned char *data;
 };
 
-enum msm_camera_resp_t {
+enum msm_camera_resp {
         MSM_CAM_RESP_CTRL,
         MSM_CAM_RESP_STAT_EVT_MSG,
         MSM_CAM_RESP_V4L2,
@@ -140,15 +140,15 @@ struct msm_stats_event_ctrl {
         /* 0 - ctrl_cmd from control thread,
          * 1 - stats/event kernel,
          * 2 - V4L control or read request */
-        enum msm_camera_resp_t resptype;
+        enum msm_camera_resp resptype;
         int timeout_ms;
-        struct msm_ctrl_cmd_t ctrl_cmd;
+        struct msm_ctrl_cmd ctrl_cmd;
         /* struct  vfe_event_t  stats_event; */
-        struct msm_vfe_evt_msg_t stats_event;
+        struct msm_vfe_evt_msg stats_event;
 };
 
 /* 2. config command: config command(from config thread); */
-struct msm_camera_cfg_cmd_t {
+struct msm_camera_cfg_cmd {
         /* what to config:
          * 1 - sensor config, 2 - vfe config */
         uint16_t cfg_type;
@@ -160,7 +160,7 @@ struct msm_camera_cfg_cmd_t {
         void *value;
 };
 
-enum cfg_cmd_type_t {
+enum cfg_cmd_type {
         CMD_GENERAL,
         CMD_AXI_CFG_OUT1,
         CMD_AXI_CFG_SNAP_O1_AND_O2,
@@ -183,18 +183,18 @@ enum cfg_cmd_type_t {
 };
 
 /* vfe config command: config command(from config thread)*/
-struct msm_vfe_cfg_cmd_t {
-        enum cfg_cmd_type_t cmd_type;
+struct msm_vfe_cfg_cmd {
+        enum cfg_cmd_type cmd_type;
         uint16_t length;
         void *value;
 };
 
-struct camera_enable_cmd_t {
+struct camera_enable_cmd {
         char *name;
         uint16_t length;
 };
 
-enum msm_pmem_t {
+enum msm_pmem {
         MSM_PMEM_OUTPUT1,
         MSM_PMEM_OUTPUT2,
         MSM_PMEM_OUTPUT1_OUTPUT2,
@@ -207,7 +207,7 @@ enum msm_pmem_t {
         MSM_PMEM_MAX
 };
 
-enum msm_camera_out_frame_t {
+enum msm_camera_out_frame {
         FRAME_PREVIEW_OUTPUT1,
         FRAME_PREVIEW_OUTPUT2,
         FRAME_SNAPSHOT,
@@ -216,8 +216,8 @@ enum msm_camera_out_frame_t {
         FRAME_MAX
 };
 
-struct msm_pmem_info_t {
-        enum msm_pmem_t type;
+struct msm_pmem_info {
+        enum msm_pmem type;
         int fd;
         void *vaddr;
         uint32_t y_off;
@@ -225,7 +225,7 @@ struct msm_pmem_info_t {
         uint8_t active;
 };
 
-struct outputCfg_t {
+struct outputCfg {
         uint32_t height;
         uint32_t width;
 
@@ -233,7 +233,7 @@ struct outputCfg_t {
         uint32_t window_height_lastline;
 };
 
-enum vfeoutput_mode_t {
+enum vfeoutput_mode {
         OUTPUT_1,
         OUTPUT_2,
         OUTPUT_1_AND_2,
@@ -249,7 +249,7 @@ enum msm_frame_path {
         MSM_FRAME_ENC,
 };
 
-struct msm_frame_t {
+struct msm_frame {
         enum msm_frame_path path;
         unsigned long buffer;
         uint32_t y_off;
@@ -266,13 +266,13 @@ enum stat_type {
         STAT_MAX,
 };
 
-struct msm_stats_buf_t {
+struct msm_stats_buf {
         enum stat_type type;
         unsigned long buffer;
         int fd;
 };
 
-enum msm_v4l2_ctrl_t {
+enum msm_v4l2_ctrl {
         MSM_V4L2_VID_CAP_TYPE,
         MSM_V4L2_STREAM_ON,
         MSM_V4L2_STREAM_OFF,
@@ -285,23 +285,23 @@ enum msm_v4l2_ctrl_t {
         MSM_V4L2_MAX
 };
 
-struct crop_info_t {
+struct crop_info {
         void *info;
         int len;
 };
 
-struct msm_postproc_t {
+struct msm_postproc {
         int ftnum;
-        struct msm_frame_t fthumnail;
+        struct msm_frame fthumnail;
         int fmnum;
-        struct msm_frame_t fmain;
+        struct msm_frame fmain;
 };
 
-struct msm_snapshot_pp_status_t {
+struct msm_snapshot_pp_status {
         void *status;
 };
 
-enum sensor_cfg_t {
+enum sensor_cfg {
         CFG_SET_MODE,
         CFG_SET_EFFECT,
         CFG_START,
@@ -335,24 +335,24 @@ enum sensor_cfg_t {
         CFG_MAX
 };
 
-enum sensor_move_focus_t {
+enum sensor_move_focus {
   MOVE_NEAR,
   MOVE_FAR
 };
 
-enum sensor_mode_t {
+enum sensor_mode {
         SENSOR_PREVIEW_MODE,
         SENSOR_SNAPSHOT_MODE,
         SENSOR_RAW_SNAPSHOT_MODE
 };
 
-enum sensor_resolution_t {
+enum sensor_resolution {
         SENSOR_QTR_SIZE,
         SENSOR_FULL_SIZE,
         SENSOR_INVALID_SIZE,
 };
 
-enum camera_effect_t {
+enum camera_effect {
         CAMERA_EFFECT_MIN_MINUS_1,
         CAMERA_EFFECT_OFF = 1,  /* This list must match aeecamera.h */
         CAMERA_EFFECT_MONO,
@@ -381,7 +381,7 @@ struct exp_gain_cfg {
 
 struct focus_cfg {
         int32_t steps;
-        enum sensor_move_focus_t dir;
+        enum sensor_move_focus dir;
 };
 
 struct fps_cfg {
@@ -390,16 +390,16 @@ struct fps_cfg {
         uint32_t pict_fps_div;
 };
 
-enum msm_camera_led_state_t {
+enum msm_camera_led_state {
   MSM_LED_OFF,
   MSM_LED_LOW,
   MSM_LED_HIGH
 };
 
-struct sensor_cfg_data_t {
-        enum sensor_cfg_t  cfgtype;
-        enum sensor_mode_t mode;
-        enum sensor_resolution_t rs;
+struct sensor_cfg_data {
+        enum sensor_cfg  cfgtype;
+        enum sensor_mode mode;
+        enum sensor_resolution rs;
 
         union {
                 int8_t effect;
@@ -417,7 +417,7 @@ struct sensor_cfg_data_t {
         } cfg;
 };
 
-enum sensor_get_info_t {
+enum sensor_get_info {
         GET_NAME,
         GET_PREVIEW_LINE_PER_FRAME,
         GET_PREVIEW_PIXELS_PER_LINE,
@@ -427,7 +427,7 @@ enum sensor_get_info_t {
         GET_SNAPSHOT_MAX_EP_LINE_CNT,
 };
 
-struct msm_camsensor_info_t {
+struct msm_camsensor_info {
         char name[MAX_SENSOR_NAME];
   int8_t flash_enabled;
 };

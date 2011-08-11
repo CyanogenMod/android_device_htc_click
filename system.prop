@@ -60,8 +60,8 @@ ro.config.alarm_alert=Alarm_Classic.ogg
 dalvik.vm.execution-mode=int:jit
 
 # Persist default parameters
-persist.sys.use_dithering=0
-persist.sys.purgeable_assets=1
+persist.sys.use_dithering=1
+persist.sys.purgeable_assets=0
 
 # VM heap size
 dalvik.vm.heapsize=24m
@@ -72,8 +72,8 @@ ro.compcache.default=18
 # Makes HOME ADW / OTHERS to be always in memoory
 pref_lock_home=1
 
-# Default Tether Dissabled
-ro.tether.denied=true
+# Default Tether Enabled
+ro.tether.denied=false
 
 # Enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector.

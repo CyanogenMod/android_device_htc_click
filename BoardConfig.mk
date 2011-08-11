@@ -35,22 +35,18 @@ BOARD_WPA_SUPPLICANT_DRIVER := CUSTOM
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := libWifiApi
 BOARD_WLAN_DEVICE           := wl1251
 BOARD_WLAN_TI_STA_DK_ROOT   := system/wlan/ti/sta_dk_4_0_4_32
-WIFI_DRIVER_MODULE_PATH     := /system/lib/modules/wlan.ko
+WIFI_DRIVER_MODULE_PATH     := "/system/lib/modules/wlan.ko"
 WIFI_DRIVER_MODULE_ARG      := ""
-WIFI_DRIVER_MODULE_NAME     := wlan
-WIFI_FIRMWARE_LOADER        := wlan_loader
+WIFI_DRIVER_MODULE_NAME     := "wlan"
+WIFI_FIRMWARE_LOADER        := "wlan_loader"
 
 TARGET_PROVIDES_INIT_RC := false
 
-BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
+BOARD_KERNEL_CMDLINE := no_console_suspend=1
 BOARD_KERNEL_BASE := 0x02E00000
+BOARD_KERNEL_PAGESIZE := 2048
 
 BOARD_USES_GENERIC_AUDIO := false
-
-# Use HTC USB Function Switch to enable tethering via USB
-# BOARD_USE_HTC_USB_FUNCTION_SWITCH := true
-
-BOARD_USE_USB_MASS_STORAGE_SWITCH := true
 
 BOARD_HAVE_BLUETOOTH := true
 
@@ -77,10 +73,10 @@ BOARD_GLOBAL_CFLAGS += -DHAVE_FM_RADIO
 BOARD_USES_QCOM_HARDWARE := true
 BOARD_USES_QCOM_GPS := true
 BOARD_USES_QCOM_LIBS := true
-
 BOARD_USES_GPSSHIM := true
-
 BOARD_GPS_LIBRARIES := libgps librpc
+
+BOARD_USE_NEW_LIBRIL_HTC := true
 
 TARGET_LIBAGL_USE_GRALLOC_COPYBITS := true
 
@@ -109,4 +105,4 @@ BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x0a520000
 BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Add LUNFILE configuration to the system
-BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"
+# BOARD_UMS_LUNFILE := "/sys/devices/platform/usb_mass_storage/lun0/file"

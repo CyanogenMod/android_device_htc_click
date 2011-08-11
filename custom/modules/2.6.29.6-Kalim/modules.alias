@@ -1,4 +1,0 @@
-# Aliases extracted from modules themselves.
-alias sdio:c07v*d* wlan
-alias ip6t_TCPMSS xt_TCPMSS
-alias ipt_TCPMSS xt_TCPMSS

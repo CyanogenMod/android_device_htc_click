@@ -33,7 +33,7 @@ extern "C" {
 
 #define CAM_CTRL_SUCCESS 1
 
-#define REVISION_H "3"
+#define REVISION_H "4"
 
 #define CAMERA_SET_PARM_DIMENSION 1
 #define CAMERA_SET_PARM_ZOOM 2
@@ -237,19 +237,19 @@ public:
     bool reg_unreg_buf(int camfd,
                        int width,
                        int height,
-                       msm_frame_t *frame,
-                       msm_pmem_t pmem_type,
+                       msm_frame *frame,
+                       msm_pmem pmem_type,
                        unsigned char unregister,
                        unsigned char active);
     void native_register_preview_bufs(int camfd,
                                       void *pDim,
-                                      struct msm_frame_t *frame,
+                                      struct msm_frame *frame,
                                       unsigned char active);
     void native_unregister_preview_bufs(int camfd,
                                         void *pDim,
-                                        struct msm_frame_t *frame);
+                                        struct msm_frame *frame);
 
-    void receivePreviewFrame(struct msm_frame_t *frame);
+    void receivePreviewFrame(struct msm_frame *frame);
     void receiveJpegPicture(void);
     void receiveJpegPictureFragment(uint8_t *buf, uint32_t size);
     void notifyShutter();
@@ -331,13 +331,13 @@ private:
     struct PmemPool : public MemPool {
         PmemPool(const char *pmem_pool,
                  int control_camera_fd,
-                 msm_pmem_t pmem_type,
+                 msm_pmem pmem_type,
                  int buffer_size, int num_buffers,
                  int frame_size, int frame_offset,
                  const char *name);
         virtual ~PmemPool();
         int mFd;
-        msm_pmem_t mPmemType;
+        msm_pmem mPmemType;
         int mCameraControlFd;
         uint32_t mAlignedSize;
         struct pmem_region mSize;
@@ -435,7 +435,7 @@ private:
 
     common_crop_t mCrop;
 
-    struct msm_frame_t frames[kPreviewBufferCount];
+    struct msm_frame frames[kPreviewBufferCount];
     bool mInPreviewCallback;
     bool mCameraRecording;
     int32_t mCurZoom;

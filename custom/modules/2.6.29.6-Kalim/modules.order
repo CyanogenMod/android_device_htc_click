@@ -1,9 +1,0 @@
-kernel/fs/nls/nls_utf8.ko
-kernel/fs/ext4/ext4.ko
-kernel/fs/jbd2/jbd2.ko
-kernel/fs/cifs/cifs.ko
-kernel/fs/aufs/aufs.ko
-kernel/drivers/net/wireless/tiwlan1251/wlan.ko
-kernel/drivers/hid/hid-dummy.ko
-kernel/drivers/staging/ramzswap/ramzswap.ko
-kernel/net/netfilter/xt_TCPMSS.ko

@@ -30,10 +30,8 @@ PRODUCT_PACKAGES += \
     libOmxCore \
     libmm-omxcore \
     libOmxVidEnc \
-    libcamera \
     librpc \
     dhcpcd.conf \
-    rzscontrol \
     com.android.future.usb.accessory \
     dexpreopt
 
@@ -79,7 +77,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/keychars/bahamas-keypad.kcm.bin:system/usr/keychars/bahamas-keypad.kcm.bin \
     device/htc/click/custom/keychars/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
     device/htc/click/custom/keychars/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
-    device/htc/click/custom/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
     device/htc/click/custom/keylayout/bahamas-keypad.kl:system/usr/keylayout/bahamas-keypad.kl \
     device/htc/click/custom/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
     device/htc/click/custom/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
@@ -90,7 +87,8 @@ PRODUCT_COPY_FILES += \
 
 # precompiled files for /system/bin
 PRODUCT_COPY_FILES += \
-    device/htc/click/custom/calibrate_screen:system/bin/calibrate_screen
+    device/htc/click/custom/calibrate_screen:system/bin/calibrate_screen \
+    device/htc/click/custom/klogtail:system/xbin/klogtail
 
 # media configuration xml file
 PRODUCT_COPY_FILES += \

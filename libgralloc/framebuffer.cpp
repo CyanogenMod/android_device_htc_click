@@ -34,7 +34,7 @@
 #include <cutils/atomic.h>
 
 #include <linux/fb.h>
-#include "linux/msm_mdp.h"
+#include <linux/msm_mdp.h>
 
 #include "gralloc_priv.h"
 #include "gr.h"
@@ -372,6 +372,9 @@ int fb_device_open(hw_module_t const* module, const char* name,
 
             *device = &dev->device.common;
         }
+
+        // Close the gralloc module
+        gralloc_close(gralloc_device);
     }
     return status;
 }

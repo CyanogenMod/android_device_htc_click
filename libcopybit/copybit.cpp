@@ -41,7 +41,7 @@
 /******************************************************************************/
 
 #if defined(COPYBIT_MSM7K)
-#define MAX_SCALE_FACTOR    (3)
+#define MAX_SCALE_FACTOR    (4)
 #define MAX_DIMENSION       (4096)
 #elif defined(COPYBIT_QSD8K)
 #define MAX_SCALE_FACTOR    (8)
@@ -131,27 +131,18 @@ static int get_format(int format) {
 }
 
 /** convert from copybit image to mdp image structure */
-static void set_image(struct mdp_img *img, const struct copybit_image_t *rhs)
+static void set_image(struct mdp_img *img, const struct copybit_image_t *rhs) 
 {
     private_handle_t* hnd = (private_handle_t*)rhs->handle;
+    if(hnd == NULL){
+        LOGE("copybit: Invalid handle");
+        return;
+    }
     img->width      = rhs->w;
     img->height     = rhs->h;
     img->format     = get_format(rhs->format);
     img->offset     = hnd->offset;
-#if defined(COPYBIT_MSM7K)
-    if (hnd->flags & private_handle_t::PRIV_FLAGS_USES_GPU) {
-        img->offset += hnd->map_offset;
-        img->memory_id = hnd->gpu_fd;
-        if (img->format == MDP_RGBA_8888) {
-            // msm7201A GPU only supports BGRA_8888 destinations
-            img->format = MDP_BGRA_8888;
-        }
-    } else {
-        img->memory_id = hnd->fd;
-    }
-#else
     img->memory_id  = hnd->fd;
-#endif
 }
 /** setup rectangles */
 static void set_rects(struct copybit_context_t *dev,
@@ -194,14 +185,17 @@ static void set_rects(struct copybit_context_t *dev,
 }
 
 /** setup mdp request */
-static void set_infos(struct copybit_context_t *dev, struct mdp_blit_req *req) {
+static void set_infos(struct copybit_context_t *dev, struct mdp_blit_req *req, int flags) {
     req->alpha = dev->mAlpha;
     req->transp_mask = MDP_TRANSP_NOP;
-    req->flags = dev->mFlags | MDP_BLEND_FG_PREMULT;
+    req->flags = dev->mFlags | flags;
+#if defined(COPYBIT_QSD8K)
+    req->flags |= MDP_BLEND_FG_PREMULT;
+#endif
 }
 
 /** copy the bits */
-static int msm_copybit(struct copybit_context_t *dev, void const *list)
+static int msm_copybit(struct copybit_context_t *dev, void const *list) 
 {
     int err = ioctl(dev->mFD, MSMFB_BLIT,
                     (struct mdp_blit_req_list const*)list);
@@ -245,7 +239,7 @@ static int msm_copybit(struct copybit_context_t *dev, void const *list)
 static int set_parameter_copybit(
         struct copybit_device_t *dev,
         int name,
-        int value)
+        int value) 
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int status = 0;
@@ -308,7 +302,7 @@ static int set_parameter_copybit(
 }
 
 /** Get a static info value */
-static int get(struct copybit_device_t *dev, int name)
+static int get(struct copybit_device_t *dev, int name) 
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int value;
@@ -342,7 +336,7 @@ static int stretch_copybit(
         struct copybit_image_t const *src,
         struct copybit_rect_t const *dst_rect,
         struct copybit_rect_t const *src_rect,
-        struct copybit_region_t const *region)
+        struct copybit_region_t const *region) 
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     int status = 0;
@@ -383,7 +377,9 @@ static int stretch_copybit(
         while ((status == 0) && region->next(region, &clip)) {
             intersect(&clip, &bounds, &clip);
             mdp_blit_req* req = &list.req[list.count];
-            set_infos(ctx, req);
+            int flags = 0;
+
+            set_infos(ctx, req, flags);
             set_image(&req->dst, dst);
             set_image(&req->src, src);
             set_rects(ctx, req, dst_rect, src_rect, &clip);
@@ -413,7 +409,7 @@ static int blit_copybit(
         struct copybit_device_t *dev,
         struct copybit_image_t const *dst,
         struct copybit_image_t const *src,
-        struct copybit_region_t const *region)
+        struct copybit_region_t const *region) 
 {
     struct copybit_rect_t dr = { 0, 0, dst->w, dst->h };
     struct copybit_rect_t sr = { 0, 0, src->w, src->h };
@@ -423,7 +419,7 @@ static int blit_copybit(
 /*****************************************************************************/
 
 /** Close the copybit device */
-static int close_copybit(struct hw_device_t *dev)
+static int close_copybit(struct hw_device_t *dev) 
 {
     struct copybit_context_t* ctx = (struct copybit_context_t*)dev;
     if (ctx) {

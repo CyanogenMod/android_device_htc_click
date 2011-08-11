@@ -14,7 +14,7 @@
 ** limitations under the License.
 */
 // NOTE: Version number of the lib
-#define REVISION_C "CM.7.1.0.14."
+#define REVISION_C "CM.7.1.0.15."
 // #define LOG_NDEBUG 0
 
 #define LOG_TAG "QualcommCameraHardware"
@@ -229,7 +229,7 @@ static Mutex singleton_lock;
 static bool singleton_releasing;
 static Condition singleton_wait;
 
-static void receive_camframe_callback(struct msm_frame_t *frame);
+static void receive_camframe_callback(struct msm_frame *frame);
 
 static int camerafd;
 static int fd_frame;
@@ -237,7 +237,7 @@ static int32_t mMaxZoom = -1;
 static int32_t prevzoom = 0;
 static int ZOOM_STEP;
 static bool zoomSupported = false;
-struct msm_frame_t *frameA;
+struct msm_frame *frameA;
 bool bFramePresent;
 pthread_t w_thread;
 pthread_t jpegThread;
@@ -291,7 +291,7 @@ static bool native_get_maxzoom(int camfd, void *pZm)
 {
     LOGV("native_get_maxzoom E");
 
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
     int32_t *pZoom = (int32_t *)pZm;
 
     ctrlCmd.type       = CAMERA_GET_PARM_MAXZOOM;
@@ -489,13 +489,13 @@ status_t QualcommCameraHardware::dump(int fd,
 bool QualcommCameraHardware::reg_unreg_buf(int camfd,
                                            int width,
                                            int height,
-                                           msm_frame_t *frame,
-                                           msm_pmem_t pmem_type,
+                                           msm_frame *frame,
+                                           msm_pmem pmem_type,
                                            unsigned char unregister,
                                            unsigned char active)
 {
     uint32_t y_size;
-    struct msm_pmem_info_t pmemBuf;
+    struct msm_pmem_info pmemBuf;
     uint32_t ioctl_cmd;
     int ioctlRetVal;
 
@@ -524,7 +524,7 @@ bool QualcommCameraHardware::reg_unreg_buf(int camfd,
 void QualcommCameraHardware::native_register_preview_bufs(
     int camfd,
     void *pDim,
-    struct msm_frame_t *frame,
+    struct msm_frame *frame,
     unsigned char active)
 {
     cam_ctrl_dimension_t *dimension = (cam_ctrl_dimension_t *)pDim;
@@ -541,7 +541,7 @@ void QualcommCameraHardware::native_register_preview_bufs(
 void QualcommCameraHardware::native_unregister_preview_bufs(
     int camfd,
     void *pDim,
-    struct msm_frame_t *frame)
+    struct msm_frame *frame)
 {
     cam_ctrl_dimension_t *dimension = (cam_ctrl_dimension_t *)pDim;
 
@@ -568,7 +568,7 @@ static bool native_cancel_afmode(int camfd, int af_fd)
 
 static bool native_start_preview(int camfd)
 {
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.type       = CAMERA_START_PREVIEW;
@@ -588,7 +588,7 @@ static bool native_start_preview(int camfd)
 static bool native_get_picture(int camfd, common_crop_t *crop)
 {
     LOGV("native_get_picture E");
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.length     = sizeof(common_crop_t);
@@ -621,7 +621,7 @@ static bool native_get_picture(int camfd, common_crop_t *crop)
 
 static bool native_stop_preview(int camfd)
 {
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.type       = CAMERA_STOP_PREVIEW;
     ctrlCmd.length     = 0;
@@ -638,7 +638,7 @@ static bool native_stop_preview(int camfd)
 
 static bool native_start_snapshot(int camfd)
 {
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.type       = CAMERA_START_SNAPSHOT;
@@ -656,7 +656,7 @@ static bool native_start_snapshot(int camfd)
 
 static bool native_stop_snapshot(int camfd)
 {
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.type       = CAMERA_STOP_SNAPSHOT;
@@ -735,7 +735,7 @@ bool QualcommCameraHardware::native_set_parm(
     cam_ctrl_type type, uint16_t length, void *value)
 {
     int rc = true;
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     ctrlCmd.timeout_ms = 5000;
     ctrlCmd.type       = (uint16_t)type;
@@ -764,7 +764,7 @@ static void *cam_frame_click(void *data)
 {
     LOGV("Entering cam_frame_click");
 
-    frameA = (msm_frame_t *)data;
+    frameA = (msm_frame *)data;
 
     struct sigaction act;
 
@@ -1269,7 +1269,7 @@ void QualcommCameraHardware::release()
     }
 
     int rc;
-    struct msm_ctrl_cmd_t ctrlCmd;
+    struct msm_ctrl_cmd ctrlCmd;
 
     if (mCameraRunning) {
         if (mMsgEnabled & CAMERA_MSG_VIDEO_FRAME) {
@@ -1735,7 +1735,7 @@ sp<QualcommCameraHardware> QualcommCameraHardware::getInstance()
 }
 
 // passes the Addresses to CameraService to getPreviewHeap
-void QualcommCameraHardware::receivePreviewFrame(struct msm_frame_t *frame)
+void QualcommCameraHardware::receivePreviewFrame(struct msm_frame *frame)
 {
     if ( LOG_PREVIEW )
         LOGV("receivePreviewFrame E");
@@ -2110,13 +2110,13 @@ static bool register_buf(int camfd,
                          int pmempreviewfd,
                          uint32_t offset,
                          uint8_t *buf,
-                         msm_pmem_t pmem_type,
+                         msm_pmem pmem_type,
                          bool active,
                          bool register_buffer = true);
 
 QualcommCameraHardware::PmemPool::PmemPool(const char *pmem_pool,
                                            int camera_control_fd,
-                                           msm_pmem_t pmem_type,
+                                           msm_pmem pmem_type,
                                            int buffer_size,
                                            int num_buffers,
                                            int frame_size,
@@ -2242,11 +2242,11 @@ static bool register_buf(int camfd,
                          int pmempreviewfd,
                          uint32_t offset,
                          uint8_t *buf,
-                         msm_pmem_t pmem_type,
+                         msm_pmem pmem_type,
                          bool active,
                          bool register_buffer)
 {
-    struct msm_pmem_info_t pmemBuf;
+    struct msm_pmem_info pmemBuf;
 
     pmemBuf.type     = pmem_type;
     pmemBuf.fd       = pmempreviewfd;
@@ -2359,7 +2359,7 @@ status_t QualcommCameraHardware::MemPool::dump(int fd, const Vector<String16>& a
     return NO_ERROR;
 }
 
-static void receive_camframe_callback(struct msm_frame_t *frame)
+static void receive_camframe_callback(struct msm_frame *frame)
 {
     if ( LOG_PREVIEW )
         LOGV("receive_camframe_callback E");
