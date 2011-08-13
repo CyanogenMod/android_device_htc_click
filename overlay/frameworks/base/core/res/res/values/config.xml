@@ -31,9 +31,6 @@
          the blur effect where it isn't worth the performance hit. -->
     <bool name="config_sf_slowBlur">true</bool>
 
-    <!-- XXXXX NOTE THE FOLLOWING RESOURCES USE THE WRONG NAMING CONVENTION.
-         Please don't copy them, copy anything else. -->
-
     <!-- This string array should be overridden by the device to present a list of network
          attributes.  This is used by the connectivity manager to decide which networks can coexist
          based on the hardware -->
@@ -55,13 +52,25 @@
     <item>"usb0"</item>
     </string-array>
 
-    <!-- If this is true, the screen will fade off. -->
+    <!-- List of regexpressions describing the interface (if any) that represent tetherable
+         Wifi interfaces.  If the device doesn't want to support tethering over Wifi this
+         should be empty.  An example would be "softap.*" -->
+    <string-array translatable="false" name="config_tether_wifi_regexs">
+    </string-array>
+
+    <!-- Regex array of allowable upstream ifaces for tethering - for example if you want
+         tethering on a new interface called "foo2" add <item>"foo\\d"</item> to the array -->
+    <string-array translatable="false" name="config_tether_upstream_regexs">
+    <item>"rmnet\\d"</item>
+    <item>"tiwlan\\d"</item>
+    </string-array>
+
+    <!-- If this is true, the screen will fade off.
+         Setting it to false enables the electron beam -->
     <bool name="config_animateScreenLights">false</bool>
 
     <!-- Enable the screen-off animation -->
     <bool name="config_enableScreenOffAnimation">false</bool>
-
-    <!-- XXXXXX END OF RESOURCES USING WRONG NAMING CONVENTION -->
 
     <!-- Indicate whether the SD card is accessible without removing the battery. -->
     <bool name="config_batterySdCardAccessibility">true</bool>
@@ -79,10 +88,9 @@
     LED. This also needs a liblights module that enables them accordingly. -->
     <bool name="config_amber_green_light">false</bool>
 
-    <!-- Configure Top Rotary Possition-->
+    <!-- Configure rotary bottom margin -->
     <integer name="config_rotaryMarginBottomDIP">0</integer>
 
     <!-- Configure lense unlock time label offset -->
     <integer name="config_lenseTimeLabelOffsetDIP">40</integer>
-
 </resources>
