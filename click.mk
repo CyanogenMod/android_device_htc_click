@@ -32,7 +32,6 @@ PRODUCT_PACKAGES += \
     libOmxVidEnc \
     librpc \
     dhcpcd.conf \
-    com.android.future.usb.accessory \
     dexpreopt
 
 DISABLE_DEXPREOPT := false
@@ -69,7 +68,6 @@ PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/base/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
     frameworks/base/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml
 
 # keychars and keylayout files
