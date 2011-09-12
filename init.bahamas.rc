@@ -30,8 +30,7 @@ on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
-    chown bluetooth bluetooth /sys/devices/platform/msm_serial_hs_ti.0/serial_lock_cpu
-    chmod 0660 /sys/devices/platform/msm_serial_hs_ti.0/serial_lock_cpu
+
     chown radio radio /sys/class/htc_ecompass/ecompass/PhoneOnOffFlag
 
     # Permissions for Liblights.
