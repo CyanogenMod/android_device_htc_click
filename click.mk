@@ -79,10 +79,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/custom/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
     device/htc/click/custom/keylayout/qwerty.kl:system/usr/keylayout/qwerty.kl
 
-# extra etc config files
-PRODUCT_COPY_FILES += \
-    device/htc/click/custom/sysctl.conf:system/etc/sysctl.conf
-
 # precompiled files for /system/bin
 PRODUCT_COPY_FILES += \
     device/htc/click/custom/calibrate_screen:system/bin/calibrate_screen \
