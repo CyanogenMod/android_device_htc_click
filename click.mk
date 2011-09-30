@@ -30,28 +30,11 @@ PRODUCT_PACKAGES += \
     libOmxCore \
     libmm-omxcore \
     libOmxVidEnc \
-    librpc \
+    tiwlan.ini \
     dhcpcd.conf \
     dexpreopt
 
 DISABLE_DEXPREOPT := false
-
-#WiFi stuff
-PRODUCT_PACKAGES += \
-    wpa_supplicant.conf \
-    tiwlan.ini \
-    dhcpcd.conf \
-    wlan_cu \
-    wlan_loader \
-    libCustomWifi
-
-#HotSpot
-PRODUCT_PACKAGES += \
-    tiap_loader \
-    tiap_cu \
-    tiwlan_ap.ini \
-    hostap \
-    hostapd.conf
 
 # Add Gallery 3D / Normal
 PRODUCT_PACKAGES += Gallery
@@ -61,7 +44,6 @@ PRODUCT_COPY_FILES += \
     device/htc/click/init.bahamas.rc:root/init.bahamas.rc \
     device/htc/click/ueventd.bahamas.rc:root/ueventd.bahamas.rc
 
-# from device_dream_sapphire.mk
 PRODUCT_COPY_FILES += \
     frameworks/base/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
     frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
@@ -97,7 +79,6 @@ endif
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
-
 
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
 $(call inherit-product, device/htc/common/common.mk)
