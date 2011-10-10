@@ -32,6 +32,7 @@ PRODUCT_PACKAGES += \
     libOmxVidEnc \
     tiwlan.ini \
     dhcpcd.conf \
+    wlan_loader \
     dexpreopt
 
 DISABLE_DEXPREOPT := false
