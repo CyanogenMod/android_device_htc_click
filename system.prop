@@ -69,6 +69,9 @@ dalvik.vm.heapsize=24m
 # Enable compcache
 ro.compcache.default=18
 
+# Lock dirty_ratio to 20 when USB is mounted for improved transfer speed
+ro.vold.umsdirtyratio=20
+
 # Makes HOME ADW / OTHERS to be always in memoory
 pref_lock_home=1
 
