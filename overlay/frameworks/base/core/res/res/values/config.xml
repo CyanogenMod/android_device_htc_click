@@ -65,10 +65,6 @@
     <item>"tiwlan\\d"</item>
     </string-array>
 
-    <!-- If this is true, the screen will fade off.
-         Setting it to false enables the electron beam -->
-    <bool name="config_animateScreenLights">false</bool>
-
     <!-- Enable the screen-off animation -->
     <bool name="config_enableScreenOffAnimation">false</bool>
 
