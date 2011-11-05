@@ -97,6 +97,7 @@ struct preview_size_type {
 static preview_size_type preview_sizes[] = {
     { 480, 320 }, // HVGA
     { 432, 320 }, // 1.35-to-1, for photos. (Rounded up from 1.3333 to 1)
+    { 384, 288 }, // 4:3
     { 352, 288 }, // CIF
     { 336, 244 },
     { 320, 320 },
