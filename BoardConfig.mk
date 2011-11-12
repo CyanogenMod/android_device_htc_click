@@ -42,7 +42,7 @@ WIFI_FIRMWARE_LOADER        := "wlan_loader"
 
 TARGET_PROVIDES_INIT_RC := false
 
-BOARD_KERNEL_CMDLINE := no_console_suspend=1
+BOARD_KERNEL_CMDLINE := no_console_suspend=1 console=null
 BOARD_KERNEL_BASE := 0x02E00000
 BOARD_KERNEL_PAGESIZE := 2048
 
