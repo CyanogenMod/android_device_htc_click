@@ -62,6 +62,7 @@ dalvik.vm.execution-mode=int:jit
 # Persist default parameters
 persist.sys.use_dithering=1
 persist.sys.purgeable_assets=0
+persist.sys.rotationanimation=false
 
 # VM heap size
 dalvik.vm.heapsize=24m
